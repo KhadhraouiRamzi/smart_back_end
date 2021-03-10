@@ -1,0 +1,42 @@
+package com.example.demo.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.example.demo.entite.devise;
+
+@Repository
+public interface deviseRepository extends JpaRepository<devise, Integer> {
+	
+   String DELETE = null;
+
+// Client findByEmail(String email);
+
+
+	@Query("select c from devise c")// ==> JPQL, nom de la classe ou entité
+	static
+	List GetDevise() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+ 
+ 
+	    @Query("select c from devise c  ")
+	    List<devise> findMyUsers(@Param("id") Integer id);
+	    
+	     
+		    
+   
+	@Query(nativeQuery = true, value ="select *  from devise    \r\n"  )//
+	List<devise> listDevise();
+	 
+
+
+
+}

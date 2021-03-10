@@ -38,6 +38,4 @@ public interface artisteRepository extends JpaRepository<artiste, Integer> {
 	List<Object[]> listDArtiste();
 	
 
-
-
 }

@@ -12,11 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.entite.chanson;
 
- 
- 
-
-	 
-
+  
 	 @Repository
 	public interface chansonRepository extends JpaRepository<chanson, Integer> {
 		
