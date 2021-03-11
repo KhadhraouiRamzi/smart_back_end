@@ -25,15 +25,23 @@ public class historique {
 		private  Date  udate  ;
 		
 		@ManyToOne
-		private artiste artiste;
-		
-		@ManyToOne
-		private fournisseur fournisseur;
+		private user user;
 		
 		@ManyToOne
 		private marketing marketing;
-		
-		public Integer getId() {
+
+		@OneToOne
+		private details details;
+
+	public details getDetails() {
+		return details;
+	}
+
+	public void setDetails(details details) {
+		this.details = details;
+	}
+
+	public Integer getId() {
 			return id;
 		}
 
@@ -97,23 +105,10 @@ public class historique {
 			this.udate = udate;
 		}
 
-		public artiste getArtiste() {
-			return artiste;
-		}
+		public user getUser() { return user; }
 
-		public void setArtiste(artiste artiste) {
-			this.artiste = artiste;
-		}
+		public void setUser(user user) { this.user = user; }
 
-		public fournisseur getFournisseur() {
-			return fournisseur;
-		}
-
-		public void setFournisseur(fournisseur fournisseur) {
-			this.fournisseur = fournisseur;
-		}
-		
-		
 		public marketing getMarketing() {
 			return marketing;
 		}

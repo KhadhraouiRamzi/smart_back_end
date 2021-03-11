@@ -1,3 +1,4 @@
+/*
 package com.example.demo.entite;
 
 import java.sql.Date;
@@ -8,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Entity
+
 public class artiste {
 
 	    @Id
@@ -135,3 +136,4 @@ public class artiste {
 		}
 		
 }
+*/

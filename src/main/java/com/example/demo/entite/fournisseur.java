@@ -1,6 +1,7 @@
+/*
 package com.example.demo.entite;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +11,7 @@ import javax.persistence.ManyToOne;
 
 
 
-@Entity
+
 public class fournisseur {
 
 	@Id
@@ -76,3 +77,4 @@ public class fournisseur {
 
 
 }
+*/

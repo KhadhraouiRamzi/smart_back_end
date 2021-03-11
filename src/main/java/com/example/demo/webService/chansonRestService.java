@@ -1,3 +1,4 @@
+/*
 package com.example.demo.webService;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.albumRepository;
 import com.example.demo.dao.chansonRepository;
-import com.example.demo.entite.artiste;
+//import com.example.demo.entite.artiste;
 import com.example.demo.entite.chanson;
 
  
@@ -77,3 +78,4 @@ public class chansonRestService {
 
 	 
 }
+*/
