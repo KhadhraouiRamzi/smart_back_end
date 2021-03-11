@@ -51,7 +51,8 @@ public class details {
     private List<details> chanson = new ArrayList<>();
 
     //private Set<chanson> chanson = new HashSet<>();
-       
+
+
 	public Integer getId() {
 		return id;
 	}

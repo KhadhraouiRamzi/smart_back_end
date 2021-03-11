@@ -1,3 +1,4 @@
+/*
 package com.example.demo.entite;
 
 import java.sql.Date;
@@ -10,7 +11,7 @@ import javax.persistence.ManyToOne;
 
 
 
-@Entity
+
 public class fournisseur {
 
 	@Id
@@ -76,3 +77,4 @@ public class fournisseur {
 
 
 }
+*/

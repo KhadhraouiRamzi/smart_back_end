@@ -1,3 +1,4 @@
+/*
 package com.example.demo.webService;
 
 import java.util.List;
@@ -67,4 +68,4 @@ public class fournisseurRestService {
 	}
 
 
-}
+}*/

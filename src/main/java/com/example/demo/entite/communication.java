@@ -25,10 +25,9 @@ public class communication {
 
 
 			@ManyToOne
-			private artiste artiste;
-			
-			@ManyToOne
-			private fournisseur fournisseur;
+			private user user;
+
+
 
 			public Integer getId() {
 				return id;
@@ -94,23 +93,13 @@ public class communication {
 				this.udate = udate;
 			}
 
-			public artiste getArtiste() {
-				return artiste;
+			public user getUser() {
+				return user;
 			}
 
-			public void setArtiste(artiste artiste) {
-				this.artiste = artiste;
+			public void setUser(user user) {
+				this.user = user;
 			}
-
-			public fournisseur getFournisseur() {
-				return fournisseur;
-			}
-
-			public void setFournisseur(fournisseur fournisseur) {
-				this.fournisseur = fournisseur;
-			}
-			
-			
-	}
+}
 
 

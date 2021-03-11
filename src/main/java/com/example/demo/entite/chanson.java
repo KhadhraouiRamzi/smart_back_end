@@ -23,14 +23,12 @@ public class chanson {
 		private  String featuring  ;
  		private  Date udate  ;
  		  		
- 		@ManyToOne
+ 		@ManyToOne(cascade = CascadeType.ALL)
  		private album album;
 
-		@ManyToOne
-		private artiste artiste;
-		
-		@ManyToOne
-		private fournisseur fournisseur;
+		@ManyToOne(cascade = CascadeType.ALL)
+		private user user;
+
 		
 		@ManyToOne
 		private plateforme plateforme;
@@ -127,24 +125,13 @@ public class chanson {
 			this.album = album;
 		}
 
-		public artiste getArtiste() {
-			return artiste;
+		public user getUser() {
+		return user;
 		}
 
-		public void setArtiste(artiste artiste) {
-			this.artiste = artiste;
+		public void setUser(user user) {
+		this.user = user;
 		}
-		
-
-		public fournisseur getFournisseur() {
-			return fournisseur;
-		}
-
-		public void setFournisseur(fournisseur fournisseur) {
-			this.fournisseur = fournisseur;
-		}
-		
-		
 
 		public plateforme getPlateforme() {
 			return plateforme;

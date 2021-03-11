@@ -19,6 +19,16 @@ public class marketing {
 	private String type;
 	private float montant;
 	private Date udate ;
+	private String devise;
+
+	public String getDevise() {
+		return devise;
+	}
+
+	public void setDevise(String devise) {
+		this.devise = devise;
+	}
+
 	public Integer getId() {
 		return id;
 	}

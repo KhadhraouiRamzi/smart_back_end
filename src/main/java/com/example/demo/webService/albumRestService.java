@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dao.albumRepository;
-import com.example.demo.dao.artisteRepository;
+//import com.example.demo.dao.artisteRepository;
 import com.example.demo.entite.album;
   
  

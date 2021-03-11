@@ -27,7 +27,8 @@ public class hist_communication {
 
 		@ManyToOne
 		private communication communication;
-		
+
+
 
 		public Integer getId() {
 			return id;

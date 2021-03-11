@@ -2,10 +2,7 @@ package com.example.demo.entite;
 
 import java.sql.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -18,7 +15,19 @@ public class FTP {
 		private String haut;
 		private  Integer port  ;	
 		private  String nomU  ;
-		public Integer getId() {
+
+		@OneToOne
+		private user user;
+
+	public user getUser() {
+		return user;
+	}
+
+	public void setUser(user user) {
+		this.user = user;
+	}
+
+	public Integer getId() {
 			return id;
 		}
 		public void setId(Integer id) {
