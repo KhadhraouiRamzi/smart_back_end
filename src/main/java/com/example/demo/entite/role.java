@@ -1,9 +1,6 @@
 package com.example.demo.entite;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 
@@ -14,6 +11,7 @@ public class role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
+    @Enumerated(EnumType.STRING)
     private ERole name;
 
     private Date cdate;

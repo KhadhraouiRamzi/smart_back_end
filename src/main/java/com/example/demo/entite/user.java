@@ -9,6 +9,7 @@ import java.util.Set;
 
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class user {
 
     @Id
@@ -40,6 +41,10 @@ public class user {
 
     @ManyToOne
     private marketing marketing;
+
+
+    public user() {
+    }
 
     public marketing getMarketing() {
         return marketing;
@@ -199,5 +204,10 @@ public class user {
 
     public void setProposition(String proposition) {
         this.proposition = proposition;
+    }
+
+    public user(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 }

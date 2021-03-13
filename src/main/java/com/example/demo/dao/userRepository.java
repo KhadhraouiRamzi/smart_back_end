@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface userRepository extends JpaRepository<user,Integer> {
@@ -35,6 +36,14 @@ public interface userRepository extends JpaRepository<user,Integer> {
     @Query(nativeQuery = true, value ="\r\n" +
             " select   nom,prenom,phone,email,cin,part   from user " )
     List<Object[]> listDUsers();
+
+    /*---------used to Spring Security*/
+
+    Optional<user> findByEmail(String email);
+
+    Boolean existsByEmail(String email);
+
+    /*-------------------------------------*/
 
 
 }
