@@ -1,6 +1,5 @@
 package com.example.demo.dao;
 
-import com.example.demo.entite.ImageModel;
 import com.example.demo.entite.marketing;
 import com.example.demo.entite.user;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,12 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
-
-import javax.transaction.Transactional;
 
 @Repository
 public interface userRepository extends JpaRepository<user, Integer> {
@@ -103,5 +101,14 @@ public interface userRepository extends JpaRepository<user, Integer> {
 	 * void save(user p, user img);
 	 * 
 	 */
+
+
+	/*---------used to Spring Security*/
+
+	Optional<user> findByEmail(String email);
+
+	Boolean existsByEmail(String email);
+
+	/*-------------------------------------*/
 	
 }

@@ -1,18 +1,12 @@
 package com.example.demo.webService;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.dao.roleRepository;
 import com.example.demo.entite.role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
  
 
 @CrossOrigin
@@ -62,6 +56,11 @@ roleRepository RoleRepository ;
 	@RequestMapping(path = "/updateRole", method = RequestMethod.PUT)
 	public void update(@RequestBody role u) {
 		RoleRepository.save(u);
+	}
+
+	@RequestMapping(path = "/roless", method = RequestMethod.GET)
+	public List<String> getRoles() {
+		return RoleRepository.getRolesNames();
 	}
  
 

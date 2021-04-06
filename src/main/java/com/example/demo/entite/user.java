@@ -1,16 +1,9 @@
 package com.example.demo.entite;
 
 import javax.persistence.*;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import sun.text.resources.cldr.FormatData;
-
 import java.io.File;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -310,6 +303,11 @@ public class user {
 		this.proposition = proposition;
 		this.roles = roles;
 		this.marketing = marketing;
+	}
+
+	public user(String email, String password) {
+		this.email = email;
+		this.password = password;
 	}
 
 }

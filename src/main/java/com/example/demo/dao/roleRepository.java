@@ -1,17 +1,16 @@
 package com.example.demo.dao;
 
- import com.example.demo.entite.role;
-
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
+ import com.example.demo.entite.ERole;
+import com.example.demo.entite.role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface roleRepository extends JpaRepository<role,Integer> {
@@ -41,6 +40,11 @@ public interface roleRepository extends JpaRepository<role,Integer> {
 				@Modifying
 				@Transactional
 				@Query(nativeQuery = true,value="UPDATE role u SET u.cdate = '2021-03-14' where u.id = id")
-				public void updateCdateRole(@Param("id") Integer role); 
-				
+				public void updateCdateRole(@Param("id") Integer role);
+
+				Optional<role> findByName(ERole name);
+
+				@Query(nativeQuery = true, value ="select name from role")
+				List<String> getRolesNames();
+
 }
