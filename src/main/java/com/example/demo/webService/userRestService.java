@@ -163,13 +163,18 @@ public class userRestService {
 		return newU;*/
 	}
 	
-	
-	@RequestMapping(path = "/get/{imageName}", method = RequestMethod.GET)
-	public user getImage(@PathVariable("imageName") String imageName) throws IOException {
-		final Optional<user> retrievedImage = UserRepository.findByName(imageName);
-		user img = new user(retrievedImage.get().getName(), retrievedImage.get().getType(),
-				  decompressBytes(retrievedImage.get().getPicByte()));
-		return img;
+
+	@RequestMapping(path = "/get/{id}", method = RequestMethod.GET)
+	public user getImage(@PathVariable("id") Integer id) throws IOException {
+		Optional<user> retrievedImage = UserRepository.findById(id);
+		System.out.println("img "+retrievedImage);
+			if(retrievedImage.get().getType()!=null) {
+				user img = new user(retrievedImage.get().getName(), retrievedImage.get().getType(),
+						decompressBytes(retrievedImage.get().getPicByte()));
+				return img;
+			}
+		else return	retrievedImage.get();
+
 	}
 
 	public static byte[] compressBytes(byte[] data) {
