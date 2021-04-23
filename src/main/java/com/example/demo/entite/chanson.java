@@ -1,10 +1,7 @@
 package com.example.demo.entite;
 
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 public class chanson {
@@ -29,6 +26,9 @@ public class chanson {
 
 	@ManyToOne
 	private plateforme plateforme;
+
+	@ManyToOne
+	private operateur operateur;
 
 	/*
 	 * @ManyToMany(mappedBy = "details", fetch = FetchType.LAZY) private
@@ -144,6 +144,15 @@ public class chanson {
 
 	public void setPlateforme(plateforme plateforme) {
 		this.plateforme = plateforme;
+	}
+
+	
+	public operateur getOperateur() {
+		return operateur;
+	}
+
+	public void setOperateur(operateur operateur) {
+		this.operateur = operateur;
 	}
 
 	public chanson() {
