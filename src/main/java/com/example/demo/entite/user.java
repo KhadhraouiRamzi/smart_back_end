@@ -49,6 +49,9 @@ public class user {
 	@Transient
 	private Integer idRole = new Integer(0);
 
+	public user(String nom, String prenom, String cin, Date datecin, String phone, String email, String password) {
+	}
+
 	public Set<role> getRoles() {
 		return roles;
 	}

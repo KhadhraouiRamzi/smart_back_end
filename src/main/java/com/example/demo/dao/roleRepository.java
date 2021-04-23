@@ -44,7 +44,7 @@ public interface roleRepository extends JpaRepository<role,Integer> {
 
 				Optional<role> findByName(ERole name);
 
-				@Query(nativeQuery = true, value ="select name from role")
+				@Query(nativeQuery = true, value ="select name from role where (name!='ROLE_ARTISTE' && name!='ROLE_FOURNISSEUR')")
 				List<String> getRolesNames();
 
 }

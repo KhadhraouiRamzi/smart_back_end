@@ -74,7 +74,12 @@ public class authRestService {
 		}
 
 		// Create new user's account
-		user user = new user(signUpRequest.getEmail(),
+		user user = new user(signUpRequest.getNom(),
+				             signUpRequest.getPrenom(),
+							 signUpRequest.getCin(),
+				             signUpRequest.getDatecin(),
+				             signUpRequest.getPhone(),
+				             signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
