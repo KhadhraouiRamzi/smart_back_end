@@ -1,18 +1,12 @@
 package com.example.demo.webService;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.dao.chansonRepository;
 import com.example.demo.entite.chanson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -34,6 +28,13 @@ public class chansonRestService {
 	@RequestMapping(path = "/chanson", method = RequestMethod.GET)
 	public List<chanson> listerClient() {
 		return ChansonRepository.GetChnason();
+	}
+
+	@RequestMapping(path = "/chansons/by-userId/{idUser}", method = RequestMethod.GET)
+	public List<chanson> listChansonsByUser(@PathVariable("idUser") Integer idUser) {
+		List<chanson> chansons=ChansonRepository.getChansonsByIdUser(idUser);
+		System.out.println("===>> "+chansons);
+		return chansons;
 	}
 
 	@RequestMapping(path = "/chanson/by-id/{id}", method = RequestMethod.GET)

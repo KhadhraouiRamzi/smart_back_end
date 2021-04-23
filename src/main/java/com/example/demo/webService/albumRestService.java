@@ -1,19 +1,14 @@
 package com.example.demo.webService;
 
+import com.example.demo.dao.albumRepository;
+import com.example.demo.entite.album;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.example.demo.dao.albumRepository;
 //import com.example.demo.dao.artisteRepository;
-import com.example.demo.entite.album;
   
  
 
@@ -42,7 +37,13 @@ public class albumRestService {
 	public Optional<album> rechercheParId(@PathVariable("id") Integer id) {
 		return AlbumRepository.findById(id);
 	}
- 
+
+	@RequestMapping(path = "/album/by-userId/{idUser}", method = RequestMethod.GET)
+	public List<album> listAlbumsByUser(@PathVariable("idUser") Integer idUser) {
+		List<album> albums = AlbumRepository.getAlbumsByIdUser(idUser);
+		System.out.println("===>> " + albums);
+		return albums;
+	}
 
     @RequestMapping(method = RequestMethod.POST, path = "/new-album")
     public void newAlbum(@RequestBody album p)  {
