@@ -64,6 +64,11 @@ marketingRepository MarketingRepository ;
 		MarketingRepository.save(u);
 	}
  
+	
+ 	@RequestMapping(path = "/deleteMarketing/{id}", method = RequestMethod.DELETE)
+	public void deleteByExcludedId(@PathVariable("id") Integer id) {
+ 		MarketingRepository.deleteById(id);
+	}
 
 }
 
