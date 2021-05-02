@@ -135,4 +135,5 @@ public class authRestService {
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
+	
 }
