@@ -1,18 +1,17 @@
 package com.example.demo.webService;
 
+import com.example.demo.dao.detailRepository;
+import com.example.demo.entite.details;
+import com.example.demo.excel.ExcelService;
+import com.example.demo.excel.ResponseMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
- import com.example.demo.dao.detailRepository;
- import com.example.demo.entite.details;
  
 
 	
@@ -24,6 +23,9 @@ public class detailRestService {
 	
 	@Autowired
 	detailRepository DetailRepository ;
+
+	@Autowired
+	ExcelService excelService;
 	
 	@RequestMapping(path = "/details", method = RequestMethod.GET)
 	public List<details> listeCategorie() {
@@ -79,8 +81,28 @@ public class detailRestService {
 	public void update(@RequestBody details u) {
 		DetailRepository.save(u);
 	}
- 
 
-	
+	/*--------------*web Service pour l'upload des details*--------------*/
+
+	@PostMapping("/uploadExcel")
+	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+		String message = "";
+
+		if (excelService.hasExcelFormat(file)) {
+			try {
+				excelService.uploadExcel(file);
+
+				message = "Uploaded the file successfully: " + file.getOriginalFilename();
+				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+			} catch (Exception e) {
+				message = "Could not upload the file: " + file.getOriginalFilename() + ": "+e;
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+			}
+		}
+
+		message = "Please upload an excel file!";
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+	}
+
 }
 
