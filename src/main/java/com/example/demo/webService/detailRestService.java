@@ -13,9 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
  
-
-	
-
 @CrossOrigin
 @RestController
 public class detailRestService {
@@ -30,7 +27,7 @@ public class detailRestService {
 	public List<details> listeCategorie() {
 		return DetailRepository.GetDetails();
 	}	 
-
+ 
 	@RequestMapping(path = "/listDetail", method = RequestMethod.GET)
 	public List<Object[]> listDetail() {
 		return DetailRepository.listDetail();
@@ -39,7 +36,7 @@ public class detailRestService {
 	@RequestMapping(path = "/listChanson", method = RequestMethod.GET)
 	public List<Object[]> listChanson() {
 		return DetailRepository.listChanson();
-	} 	 
+	} 	   
 
 	@RequestMapping(path = "/listdate", method = RequestMethod.GET)
 	public List<Object[]> listdate() {

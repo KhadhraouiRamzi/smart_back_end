@@ -89,13 +89,7 @@ public class details {
 	}
 	public void setDate2(Date date2) {
 		this.date2 = date2;
-	} 
-	public Integer getQuantite() {
-		return quantite;
-	}
-	public void setQuantite(Integer quantite) {
-		this.quantite = quantite;
-	}
+	}  
 	public String getPlateforme() {
 		return plateforme;
 	}
@@ -144,7 +138,14 @@ public class details {
 	public void setContent(String content) {
 		this.content = content;
 	}
- 
+	
+	 
+	public int getQuantite() {
+		return quantite;
+	}
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
 	public float getUniteprice() {
 		return uniteprice;
 	}

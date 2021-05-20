@@ -33,9 +33,9 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 
 
 	@Query(nativeQuery = true, value ="\r\n" + 
-			" select   namea ,  round(sum(netrevenu),3) as netrevenu, count(quantite) as quantite\r\n" + 
+			" select   namea ,  round(sum(uniteprice),3) as uniteprice, count(quantite) as quantite\r\n" + 
 			" from (\r\n" + 
-			"     select   namea, chanson  ,  category ,uniteprice , quantite  ,content ,  plateforme, date1, netrevenu\r\n" + 
+			"     select   namea,content ,  category ,uniteprice , quantite   ,  plateforme, date1, netrevenu\r\n" + 
 			"     from details   )aa\r\n" + 
 			" group by   namea\r\n" + 
 			"order by round(sum(netrevenu),3)   desc\r\n" + 
@@ -44,12 +44,12 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 	
 
 	@Query(nativeQuery = true, value ="\r\n" + 
-			" select   chanson ,  round(sum(netrevenu),3) as netrevenu, count(quantite) as quantite\r\n" + 
+			" select  content,  netrevenu, sum(quantite) as quantite\r\n" + 
 			" from (\r\n" + 
-			"     select   namea, chanson  ,  category ,uniteprice , quantite  ,content ,  plateforme, date1, netrevenu\r\n" + 
+			"     select   namea,content ,  category ,uniteprice , quantite   ,  plateforme, date1, netrevenu\r\n" + 
 			"     from details   )aa\r\n" + 
-			" group by   chanson\r\n" + 
-			"order by round(sum(netrevenu),3)   desc\r\n" + 
+			" group by    content,  netrevenu\r\n" + 
+			"order by netrevenu   desc\r\n" + 
 			"limit 10 ")
 	List<Object[]> listChanson(); 
 	
