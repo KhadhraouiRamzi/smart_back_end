@@ -42,6 +42,13 @@ public interface userRepository extends JpaRepository<user, Integer> {
 	@Query( "SELECT u FROM user u  join u.roles r where r.name ='ROLE_FOURNISSEUR' ") 
 	List GetFours();
 
+	/*@Query(nativeQuery = true, value ="SELECT * FROM user u inner join user_roles ur on u.id = ur.user_id inner join role r on r.id =ur.role_id where r.name in ('ROLE_ARTISTE','ROLE_FOURNISSEUR')")
+	List<String> GetArtFour();*/
+
+
+	@Query("SELECT u FROM user u  join u.roles r where r.name ='ROLE_ARTISTE' or r.name='ROLE_FOURNISSEUR'")
+	List GetArtFour();
+
 	@Query(nativeQuery = true, value = "SELECT u.* FROM user u " + "inner join user_roles ur on u.id = ur.user_id "
 			+ "inner join role r on r.id =ur.role_id " + "where r.name ='ROLE_ADMIN'\n" + "") // ==> JPQL, nom de la
 																								// classe ou entité

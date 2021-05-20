@@ -39,6 +39,11 @@ public class userRestService {
 		return UserRepository.GetFours();
 	}
 
+	@RequestMapping(path = "/ArtFour", method = RequestMethod.GET)
+	public List<user> listeArtFour() {
+		return UserRepository.GetArtFour();
+	}
+
 	@RequestMapping(path = "/admins", method = RequestMethod.GET)
 	public List<user> listeAdmins() {
 		return UserRepository.GetAdmins();
