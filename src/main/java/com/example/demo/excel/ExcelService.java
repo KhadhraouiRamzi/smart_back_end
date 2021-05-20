@@ -110,8 +110,8 @@ public class ExcelService {
                             details.setUniteprice((float) currentCell.getNumericCellValue());
                             break;
                         case 6:
-                            currentCell.setCellType(CellType.NUMERIC);
-                            details.setQuantite((int) currentCell.getNumericCellValue());
+                           double q=Double.parseDouble(currentCell.getStringCellValue());
+                            details.setQuantite((int) q);
                             break;
                         default:
                             break;

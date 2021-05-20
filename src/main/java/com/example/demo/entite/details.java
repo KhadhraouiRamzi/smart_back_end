@@ -1,14 +1,8 @@
 package com.example.demo.entite;
+import javax.persistence.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Transient;
-
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
 
 	
 
@@ -90,10 +84,10 @@ public class details {
 	public void setDate2(Date date2) {
 		this.date2 = date2;
 	} 
-	public Integer getQuantite() {
+	public int getQuantite() {
 		return quantite;
 	}
-	public void setQuantite(Integer quantite) {
+	public void setQuantite(int quantite) {
 		this.quantite = quantite;
 	}
 	public String getPlateforme() {
