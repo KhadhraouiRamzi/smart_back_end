@@ -25,6 +25,9 @@ public class ExcelService {
     @Autowired
     detailRepository detailRepository;
 
+    private static  int quantite  ;
+    private static  float value  ;
+
     public void uploadExcel(MultipartFile file) {
         try {
             List<details> details = ExcelService.excelToDetails(file.getInputStream());
@@ -108,10 +111,13 @@ public class ExcelService {
                             break;
                         case 5:
                             details.setUniteprice((float) currentCell.getNumericCellValue());
+                            value = (float)currentCell.getNumericCellValue();
                             break;
                         case 6:
                            double q=Double.parseDouble(currentCell.getStringCellValue());
                             details.setQuantite((int) q);
+                            quantite= (int) q;
+                            details.setNetrevenu(quantite*value);
                             break;
                         default:
                             break;
