@@ -19,7 +19,6 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 public class detailRestService {
-
 	
 	@Autowired
 	detailRepository DetailRepository ;
@@ -30,47 +29,58 @@ public class detailRestService {
 	@RequestMapping(path = "/details", method = RequestMethod.GET)
 	public List<details> listeCategorie() {
 		return DetailRepository.GetDetails();
-	}
-	 
+	}	 
 
 	@RequestMapping(path = "/listDetail", method = RequestMethod.GET)
 	public List<Object[]> listDetail() {
 		return DetailRepository.listDetail();
-	} 
-	 
+	} 	 
 
-	@RequestMapping(path = "/listChanson", method = RequestMethod.GET)
+	@RequestMapping(path = "/topChanson", method = RequestMethod.GET)
 	public List<Object[]> listChanson() {
-		return DetailRepository.listChanson();
-	} 
-	 
+		return DetailRepository.topChanson();
+	}
 
-	@RequestMapping(path = "/listdate", method = RequestMethod.GET)
-	public List<Object[]> listdate() {
-		return DetailRepository.listdate();
-	} 
-	 
+	@RequestMapping(path = "/topArtiste", method = RequestMethod.GET)
+	public List<Object[]> topArtiste() {
+		return DetailRepository.topArtiste();
+	}
+
+	@RequestMapping(path = "/topCategory", method = RequestMethod.GET)
+	public List<Object[]> topCategory() {
+		return DetailRepository.topCategory();
+	}
+
+	@RequestMapping(path = "/topCountC", method = RequestMethod.GET)
+	public List<Object[]> topCountC() {
+		return DetailRepository.topCountC();
+	}
+
+	@RequestMapping(path = "/topCountA", method = RequestMethod.GET)
+	public List<Object[]> topCountA() {
+		return DetailRepository.topCountA();
+	}
+
+	@RequestMapping(path = "/topDate", method = RequestMethod.GET)
+	public List<Object[]> topDate() {
+		return DetailRepository.topDate();
+	}
 
 	@RequestMapping(path = "/listArtiste", method = RequestMethod.GET)
 	public List<details> lisArtistet() {
 		return DetailRepository.listArtiste();
 	}
-	 
-	
 
-
-	   
-    @RequestMapping(path = "/details/by-nom/{id}", method = RequestMethod.GET)
-     public Optional<details> ReParNom(@PathVariable("id") Integer id) {
-     	return DetailRepository.findById(id); 
-     }
-     
+	@RequestMapping(path = "/details/by-nom/{id}", method = RequestMethod.GET)
+	public Optional<details> ReParNom(@PathVariable("id") Integer id) {
+		return DetailRepository.findById(id);
+	}
 
 	@RequestMapping(path = "/details/by-id/{id}", method = RequestMethod.GET)
 	public Optional<details> rechercheParId(@PathVariable("id") Integer id) {
 		return DetailRepository.findById(id);
 	}
-	
+
 	@RequestMapping(path = "/new-details", method = RequestMethod.POST)
 	public Integer addCategorie(@RequestBody details p) {
 		DetailRepository.save(p);
@@ -98,8 +108,7 @@ public class detailRestService {
 				message = "Could not upload the file: " + file.getOriginalFilename() + ": "+e;
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 			}
-		}
-
+		}  
 		message = "Please upload an excel file!";
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
 	}
