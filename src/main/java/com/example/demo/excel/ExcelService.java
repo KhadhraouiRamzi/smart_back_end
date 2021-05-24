@@ -27,6 +27,12 @@ public class ExcelService {
 
     private static  int quantite  ;
     private static  float value  ;
+    private static double TTC;
+    private static double part_smart;
+    private static double tax_telecom;
+    private static double part_TTC;
+    private static double HTVA;
+    private static double part_artiste;
 
     public void uploadExcel(MultipartFile file) {
         try {
@@ -108,6 +114,7 @@ public class ExcelService {
                             break;
                         case 4:
                             details.setNamea(currentCell.getStringCellValue());
+                            System.out.println(currentCell.getStringCellValue());
                             break;
                         case 5:
                             details.setUniteprice((float) currentCell.getNumericCellValue());
@@ -117,7 +124,30 @@ public class ExcelService {
                            double q=Double.parseDouble(currentCell.getStringCellValue());
                             details.setQuantite((int) q);
                             quantite= (int) q;
-                            details.setNetrevenu(quantite*value);
+                            details.setTTC((double) (quantite*value));
+                            TTC = (quantite*value);
+                            System.out.println(TTC);
+
+                            details.setPart_smart((double) (TTC*0.3));
+                            part_smart = (TTC*0.3);
+                            System.out.println(part_smart);
+
+                            details.setTax_telecom((double) (part_smart*0.59));
+                            tax_telecom =part_smart*0.59;
+                            System.out.println(tax_telecom);
+
+                            details.setPart_TTC((double) ( part_smart - tax_telecom ));
+                            part_TTC = part_smart - tax_telecom ;
+                            System.out.println("part_TTC "+part_TTC);
+
+                            details.setHTVA((double) (part_TTC / 1.19));
+                            HTVA = part_TTC / 1.19;
+                            System.out.println(HTVA);
+
+                            details.setPart_artiste((double) (HTVA / 2));
+                            System.out.println( (HTVA / 2));
+
+                            details.setGrossrevenu((double) 0);
                             break;
                         default:
                             break;

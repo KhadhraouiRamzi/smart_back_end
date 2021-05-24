@@ -46,6 +46,7 @@ public class detailRestService {
 		return DetailRepository.topArtiste();
 	}
 
+
 	@RequestMapping(path = "/topCategory", method = RequestMethod.GET)
 	public List<Object[]> topCategory() {
 		return DetailRepository.topCategory();

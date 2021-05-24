@@ -21,8 +21,8 @@ public class details {
 	private  float uniteprice  ;
 	private  Integer quantite  ;
 	private  String plateforme  ;
-	private  float netrevenu  ;
-	private  float grossrevenu  ;
+	private  Double netrevenu  = 0.0;
+	private  Double grossrevenu  = 0.0;
 	private  String devise  ;
 	private  String label  ;
 	private  String upc  ;
@@ -33,6 +33,12 @@ public class details {
 	private  String type  ;
 	private  String country  ;
 	private  Date udate  ;
+	private  Double TTC  ;
+	private  Double part_smart  ;
+	private  Double tax_telecom  ;
+	private  Double part_TTC  ;
+	private  Double HTVA  ;
+	private  Double part_artiste  ;
 	
 	/*@ManyToMany
     private Set<chanson> chanson = new HashSet<>();
@@ -46,6 +52,54 @@ public class details {
 
     //private Set<chanson> chanson = new HashSet<>();
 
+
+	public Double getTTC() {
+		return TTC;
+	}
+
+	public void setTTC(Double TTC) {
+		this.TTC = TTC;
+	}
+
+	public Double getPart_smart() {
+		return part_smart;
+	}
+
+	public void setPart_smart(Double part_smart) {
+		this.part_smart = part_smart;
+	}
+
+	public Double getTax_telecom() {
+		return tax_telecom;
+	}
+
+	public void setTax_telecom(Double tax_telecom) {
+		this.tax_telecom = tax_telecom;
+	}
+
+	public Double getPart_TTC() {
+		return part_TTC;
+	}
+
+	public void setPart_TTC(Double part_TTC) {
+		this.part_TTC = part_TTC;
+	}
+
+	public Double getHTVA() {
+		return HTVA;
+	}
+
+	public void setHTVA(Double HTVA) {
+		this.HTVA = HTVA;
+	}
+
+	public Double getPart_artiste() {
+		return part_artiste;
+	}
+
+	public void setPart_artiste(Double part_artiste) {
+		this.part_artiste = part_artiste;
+	}
 
 	public Integer getId() {
 		return id;
@@ -96,16 +150,16 @@ public class details {
 	public void setPlateforme(String plateforme) {
 		this.plateforme = plateforme;
 	}
-	public float getNetrevenu() {
+	public Double getNetrevenu() {
 		return netrevenu;
 	}
-	public void setNetrevenu(float netrevenu) {
+	public void setNetrevenu(Double netrevenu) {
 		this.netrevenu = netrevenu;
 	}
-	public float getGrossrevenu() {
+	public Double getGrossrevenu() {
 		return grossrevenu;
 	}
-	public void setGrossrevenu(float grossrevenu) {
+	public void setGrossrevenu(Double grossrevenu) {
 		this.grossrevenu = grossrevenu;
 	}
 	public String getDevise() {
