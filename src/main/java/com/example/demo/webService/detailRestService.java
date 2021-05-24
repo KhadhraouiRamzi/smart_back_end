@@ -31,10 +31,38 @@ public class detailRestService {
 		return DetailRepository.GetDetails();
 	}	 
 
+	@RequestMapping(path = "/listArtiste", method = RequestMethod.GET)
+	public List<details> lisArtistet() {
+		return DetailRepository.listArtiste();
+	}
+
+	@RequestMapping(path = "/details/by-nom/{id}", method = RequestMethod.GET)
+	public Optional<details> ReParNom(@PathVariable("id") Integer id) {
+		return DetailRepository.findById(id);
+	}
+
+	@RequestMapping(path = "/details/by-id/{id}", method = RequestMethod.GET)
+	public Optional<details> rechercheParId(@PathVariable("id") Integer id) {
+		return DetailRepository.findById(id);
+	}
+
+	@RequestMapping(path = "/new-details", method = RequestMethod.POST)
+	public Integer addCategorie(@RequestBody details p) {
+		DetailRepository.save(p);
+		return p.getId();
+	}
+
+	@RequestMapping(path = "/updateDetails", method = RequestMethod.PUT)
+	public void update(@RequestBody details u) {
+		DetailRepository.save(u);
+	}
+
+	/*----------------------------stat avec top 10---------------------------*/
+
 	@RequestMapping(path = "/listDetail", method = RequestMethod.GET)
 	public List<Object[]> listDetail() {
 		return DetailRepository.listDetail();
-	} 	 
+	}
 
 	@RequestMapping(path = "/topChanson", method = RequestMethod.GET)
 	public List<Object[]> listChanson() {
@@ -67,30 +95,46 @@ public class detailRestService {
 		return DetailRepository.topDate();
 	}
 
-	@RequestMapping(path = "/listArtiste", method = RequestMethod.GET)
-	public List<details> lisArtistet() {
-		return DetailRepository.listArtiste();
+	/*-----------tout les stat sans top 10-------------*/
+
+	@RequestMapping(path = "/statArtiste", method = RequestMethod.GET)
+	public List<Object[]> statArtiste() {
+		return DetailRepository.statArtiste();
 	}
 
-	@RequestMapping(path = "/details/by-nom/{id}", method = RequestMethod.GET)
-	public Optional<details> ReParNom(@PathVariable("id") Integer id) {
-		return DetailRepository.findById(id);
+	@RequestMapping(path = "/statChanson", method = RequestMethod.GET)
+	public List<Object[]> statChanson() {
+		return DetailRepository.statChanson();
 	}
 
-	@RequestMapping(path = "/details/by-id/{id}", method = RequestMethod.GET)
-	public Optional<details> rechercheParId(@PathVariable("id") Integer id) {
-		return DetailRepository.findById(id);
+	@RequestMapping(path = "/statcategory", method = RequestMethod.GET)
+	public List<Object[]> statcategory() {
+		return DetailRepository.statcategory();
 	}
 
-	@RequestMapping(path = "/new-details", method = RequestMethod.POST)
-	public Integer addCategorie(@RequestBody details p) {
-		DetailRepository.save(p);
-		return p.getId();
+	@RequestMapping(path = "/statCountC", method = RequestMethod.GET)
+	public List<Object[]> statCountC() {
+		return DetailRepository.statCountC();
 	}
 
-	@RequestMapping(path = "/updateDetails", method = RequestMethod.PUT)
-	public void update(@RequestBody details u) {
-		DetailRepository.save(u);
+	@RequestMapping(path = "/statCountA", method = RequestMethod.GET)
+	public List<Object[]> statCountA() {
+		return DetailRepository.statCountA();
+	}
+
+	@RequestMapping(path = "/statDate", method = RequestMethod.GET)
+	public List<Object[]> statDate() {
+		return DetailRepository.statDate();
+	}
+
+	@RequestMapping(path = "/statPlateforme", method = RequestMethod.GET)
+	public List<Object[]> statPlateforme() {
+		return DetailRepository.statPlateforme();
+	}
+
+	@RequestMapping(path = "/statPlateformeC", method = RequestMethod.GET)
+	public List<Object[]> statPlateformeC() {
+		return DetailRepository.statPlateformeC();
 	}
 
 	/*--------------*web Service pour l'upload des details*--------------*/
