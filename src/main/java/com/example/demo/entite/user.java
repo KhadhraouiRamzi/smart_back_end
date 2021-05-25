@@ -22,6 +22,7 @@ public class user {
 	private String type;
 	private byte[] picByte;
 	private File[] files;
+	private Boolean pro;
 
 	private String nArtistique;
 	private String phone;
@@ -67,6 +68,14 @@ public class user {
 	public void setIdRole(Integer idRole) {
 		this.idRole = idRole;
 		// return this.roles != null ? this.roles.getClass() : this.idRole;
+	}
+
+	public Boolean getPro() {
+		return pro;
+	}
+
+	public void setPro(Boolean pro) {
+		this.pro = pro;
 	}
 
 	public Integer getIdMarketing() {

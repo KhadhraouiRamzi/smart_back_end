@@ -28,14 +28,16 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ "limit 10 ")
 	List<Object[]> listDetail();
 
-	@Query(nativeQuery = true, value = "\r\n"
-			+ " select  content,  round((sum(netrevenu)),3) as netrevenu,   sum(quantite) as quantite\n"
-			+ "from details group by  content order by  round(sum(netrevenu),3)    desc limit 10 ")
+	@Query(nativeQuery = true, value = "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n" +
+			"round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n" +
+			"round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n" +
+			"from details group by  content order by  round(sum(ttc),3) desc limit 10")
 	List<Object[]> topChanson();
 
-	@Query(nativeQuery = true, value = "\r\n"
-			+ " select  namea,  round((sum(netrevenu)),3) as netrevenu,   sum(quantite) as quantite\n"
-			+ "from details group by    namea order by  round(sum(netrevenu),3)    desc limit 10 ")
+	@Query(nativeQuery = true, value = "select  namea,  round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n" +
+			"round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n" +
+			"round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n" +
+			"from details group by    namea ORDER BY  round(sum(ttc),3) desc limit 10")
 	List<Object[]> topArtiste();
 
 	@Query(nativeQuery = true, value = "\r\n"
@@ -54,13 +56,16 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ "from details group by  namea order by sum(quantite)   desc limit 10 ")
 	List<Object[]> topCountA();
 
-	@Query(nativeQuery = true, value = "select  date1,date2,round((sum(netrevenu)),3) as netrevenu,   sum(quantite) as quantite "
-			+ "from details group by date1,date2")
+	@Query(nativeQuery = true, value = "select  date1,date2,round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n" +
+			"round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n" +
+			"round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n" +
+			"from details group by date1,date2 desc limit 10")
 	List<Object[]> topDate();
 
-	@Query(nativeQuery = true, value = "\r\n"
-			+ " select  category,  round((sum(netrevenu)),3) as netrevenu,   sum(quantite) as quantite\n"
-			+ "from details group by  category order by  round(sum(netrevenu),3)    desc limit 10 ")
+	@Query(nativeQuery = true, value = "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n" +
+			"round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n" +
+			"round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n" +
+			"from details group by  category order by round((sum(ttc)),3) desc limit 10 ")
 	List<Object[]> topCategory();
 
 	@Query(nativeQuery = true, value = "\r\n"
