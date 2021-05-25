@@ -142,7 +142,7 @@ public class detailRestService {
 	
 
 	@RequestMapping(path = "/statArtiste/by-userId/{id}", method = RequestMethod.GET)
-	public Optional<details> statArtisteById(@PathVariable("id") Integer id) {
+	public List<Object[]> statArtisteById(@PathVariable("id") Integer id) {
 		return DetailRepository.statArtisteById(id);
 	}
 	 
@@ -150,6 +150,25 @@ public class detailRestService {
 	@RequestMapping(path = "/statChanson/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statChansonById(@PathVariable("id") Integer id) {
 		return DetailRepository.statChansonById(id); 
+ 	}
+	 
+
+	@RequestMapping(path = "/statCategorie/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statCategorieById(@PathVariable("id") Integer id) {
+		return DetailRepository.statCategoryById(id); 
+	}
+	
+
+	@RequestMapping(path = "/statPlateforme/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statPlateformeById(@PathVariable("id") Integer id) {
+		return DetailRepository.statPlateformeById(id); 
+ 	}
+	
+	
+
+	@RequestMapping(path = "/statDate/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statDateById(@PathVariable("id") Integer id) {
+		return DetailRepository.statDateById(id); 
  	}
 	
 	
