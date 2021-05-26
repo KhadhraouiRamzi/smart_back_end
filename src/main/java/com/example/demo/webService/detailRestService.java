@@ -1,6 +1,7 @@
 package com.example.demo.webService;
 
 import com.example.demo.dao.detailRepository;
+import com.example.demo.entite.chanson;
 import com.example.demo.entite.details;
 import com.example.demo.excel.ExcelService;
 import com.example.demo.excel.ResponseMessage;
@@ -136,7 +137,41 @@ public class detailRestService {
 	public List<Object[]> statPlateformeC() {
 		return DetailRepository.statPlateformeC();
 	}
+	
+	/*-----------tout les stat sans top 10 By Users Connected-------------*/
+	
 
+	@RequestMapping(path = "/statArtiste/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statArtisteById(@PathVariable("id") Integer id) {
+		return DetailRepository.statArtisteById(id);
+	}
+	 
+
+	@RequestMapping(path = "/statChanson/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statChansonById(@PathVariable("id") Integer id) {
+		return DetailRepository.statChansonById(id); 
+ 	}
+	 
+
+	@RequestMapping(path = "/statCategorie/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statCategorieById(@PathVariable("id") Integer id) {
+		return DetailRepository.statCategoryById(id); 
+	}
+	
+
+	@RequestMapping(path = "/statPlateforme/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statPlateformeById(@PathVariable("id") Integer id) {
+		return DetailRepository.statPlateformeById(id); 
+ 	}
+	
+	
+
+	@RequestMapping(path = "/statDate/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statDateById(@PathVariable("id") Integer id) {
+		return DetailRepository.statDateById(id); 
+ 	}
+	
+	
 	/*--------------*web Service pour l'upload des details*--------------*/
 
 	@PostMapping("/uploadExcel")
