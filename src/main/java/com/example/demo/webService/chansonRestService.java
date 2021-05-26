@@ -5,6 +5,7 @@ import com.example.demo.entite.chanson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,22 @@ public class chansonRestService {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, path = "/new-chanson")
-	public void newChanson(@RequestBody chanson p) {
+	public void newChanson(@Valid @RequestBody chanson p) {
+		chanson ch=new chanson(p.getId(),
+				p.getCdate(),
+				p.getNom(),
+				p.getGenre(),
+				p.getDatec(),
+				p.getType(),
+				p.getRbt_src(),
+				p.getFeaturing(),
+				p.getUdate(),
+				p.getAlbum(),
+				p.getUser(),
+				p.getPlatformes(),
+				p.getOperateurs());
+		System.out.println(ch.getPlatformes().size());
+		p=ch;
 		ChansonRepository.save(p);
 		// ChansonRepository.updatecdate(p.getId());
 	}

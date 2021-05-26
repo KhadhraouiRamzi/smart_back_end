@@ -2,6 +2,8 @@ package com.example.demo.entite;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class chanson {
@@ -24,11 +26,13 @@ public class chanson {
 	@ManyToOne
 	private user user;
 
-	@ManyToOne
-	private plateforme plateforme;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "paltforme_chanson", joinColumns = @JoinColumn(name = "chanson_id"), inverseJoinColumns = @JoinColumn(name = "platforme_id"))
+	private Set<plateforme> platformes = new HashSet<>();
 
-	@ManyToOne
-	private operateur operateur;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "operateur_chanson", joinColumns = @JoinColumn(name = "chanson_id"), inverseJoinColumns = @JoinColumn(name = "operateur_id"))
+	private Set<operateur> operateurs= new HashSet<>();
 
 	/*
 	 * @ManyToMany(mappedBy = "details", fetch = FetchType.LAZY) private
@@ -39,8 +43,8 @@ public class chanson {
 	 * 
 	 */
 
-	@Transient
-	private Integer idUser = new Integer(0);
+/*	@Transient
+	private Integer idUser = new Integer(0);*//*
 
 	public Integer getIdUser() {
 		return this.user != null ? this.user.getId() : this.idUser;
@@ -48,7 +52,7 @@ public class chanson {
 
 	public void setIdUser(Integer idUser) {
 		this.idUser = idUser;
-	}
+	}*/
 
 	public Integer getId() {
 		return id;
@@ -138,25 +142,40 @@ public class chanson {
 		this.user = user;
 	}
 
-	public plateforme getPlateforme() {
-		return plateforme;
+
+	public Set<plateforme> getPlatformes() {
+		return platformes;
 	}
 
-	public void setPlateforme(plateforme plateforme) {
-		this.plateforme = plateforme;
+	public void setPlatformes(Set<plateforme> platformes) {
+		this.platformes = platformes;
 	}
 
-	
-	public operateur getOperateur() {
-		return operateur;
+	public Set<operateur> getOperateurs() {
+		return operateurs;
 	}
 
-	public void setOperateur(operateur operateur) {
-		this.operateur = operateur;
+	public void setOperateurs(Set<operateur> operateurs) {
+		this.operateurs = operateurs;
 	}
 
 	public chanson() {
 		super();
 	}
 
+	public chanson(Integer id, Date cdate, String nom, String genre, Date datec, String type, String rbt_src, String featuring, Date udate, com.example.demo.entite.album album, com.example.demo.entite.user user, Set<plateforme> platformes, Set<operateur> operateurs) {
+		this.id = id;
+		this.cdate = cdate;
+		this.nom = nom;
+		this.genre = genre;
+		this.datec = datec;
+		this.type = type;
+		this.rbt_src = rbt_src;
+		this.featuring = featuring;
+		this.udate = udate;
+		this.album = album;
+		this.user = user;
+		this.platformes = platformes;
+		this.operateurs = operateurs;
+	}
 }
