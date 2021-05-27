@@ -132,8 +132,8 @@ public class ExcelService {
                             part_smart = (TTC*0.3);
                             System.out.println(part_smart);
 
-                            details.setTax_telecom((double) (part_smart*0.59));
-                            tax_telecom =part_smart*0.59;
+                            details.setTax_telecom((double) (part_smart*0.059));
+                            tax_telecom =part_smart*0.059;
                             System.out.println(tax_telecom);
 
                             details.setPart_TTC((double) ( part_smart - tax_telecom ));

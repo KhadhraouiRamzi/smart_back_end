@@ -1,7 +1,6 @@
 package com.example.demo.webService;
 
 import com.example.demo.dao.detailRepository;
-import com.example.demo.entite.chanson;
 import com.example.demo.entite.details;
 import com.example.demo.excel.ExcelService;
 import com.example.demo.excel.ResponseMessage;
@@ -171,6 +170,53 @@ public class detailRestService {
 		return DetailRepository.statDateById(id); 
  	}
 	
+
+	/*-----------tout les stat sans top 10 By Users Connected-------------*/
+
+
+	@RequestMapping(path = "/topArtiste/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statArtisteUsersById(@PathVariable("id") Integer id) {
+		return DetailRepository.statArtisteUsersById(id);
+	}
+
+
+	@RequestMapping(path = "/topChanson/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statChansonUsersById(@PathVariable("id") Integer id) {
+		return DetailRepository.statChansonUsersById(id);
+ 	}
+
+
+	@RequestMapping(path = "/topCategory/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statcategoryUsersById(@PathVariable("id") Integer id) {
+		return DetailRepository.statcategoryUsersById(id);
+	}
+
+
+	@RequestMapping(path = "/topPlateforme/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statPlateformeUsersById(@PathVariable("id") Integer id) {
+		return DetailRepository.statPlateformeUsersById(id);
+ 	}
+
+
+
+	@RequestMapping(path = "/topDate/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statDateUsersById(@PathVariable("id") Integer id) {
+		return DetailRepository.statDateUsersById(id);
+ 	}
+
+	/*-----------web service pour les totaux des stats----------------*/
+
+
+	@RequestMapping(path = "/statTotal", method = RequestMethod.GET)
+	public List<Object[]> statTotal() {
+		return DetailRepository.statTotal();
+	}
+
+	@RequestMapping(path = "/statTotal/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statTotalUsersById(@PathVariable("id") Integer id) {
+		return DetailRepository.statTotalUsersById(id);
+	}
+
 	
 	/*--------------*web Service pour l'upload des details*--------------*/
 
