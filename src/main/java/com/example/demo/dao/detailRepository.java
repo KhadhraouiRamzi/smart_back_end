@@ -128,75 +128,141 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ "from details group by  plateforme")
 	List<Object[]> statPlateformeC();
 
-	/*-----------tout les stat sans top 10 By Users Connected-------------*/
+	/*-----------tout les stat Users Connected-------------*/
 
-	@Query(nativeQuery = true, value = "select  content, round((sum(`ttc`)),3) as ttc, sum(quantite) as quantite, round(sum(`part_smart`),3) as part_smart,\n"
-			+ "round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ "round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n" + "from details\n"
-			+ "where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ "group by content ORDER BY round(sum(ttc),3) desc")
+	@Query(nativeQuery = true, value = "select * from (\n"
+			+ " select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  content\n"
+			+ "union ALL\n"
+			+ "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  content)xx\n"
+			+ "order by ttc desc")
 	List<Object[]> statChansonById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "select  namea, round((sum(`ttc`)),3) as ttc, sum(quantite) as quantite, round(sum(`part_smart`),3) as part_smart,\n"
-			+ "round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ "round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n" + "from details\n"
-			+ "where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ "group by namea ORDER BY round(sum(ttc),3) desc")
+	@Query(nativeQuery = true, value = "select * from (\n"
+			+ " select  namea,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  namea\n"
+			+ "union ALL\n"
+			+ "select  namea,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  namea)xx\n"
+			+ "order by ttc desc")
 	List<Object[]> statArtisteById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n" + " from details\n"
-			+ "where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ "group by  category order by round((sum(ttc)),3) desc")
+	@Query(nativeQuery = true, value ="select * from (\n"
+			+ " select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  category\n"
+			+ "union ALL\n"
+			+ "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  category)xx\n"
+			+ "order by ttc desc")
 	List<Object[]> statCategoryById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "select  plateforme, round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n" + "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n" + "group by  plateforme")
+	@Query(nativeQuery = true, value ="select * from (\n"
+			+ " select  plateforme,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  plateforme\n"
+			+ "union ALL\n"
+			+ "select  plateforme,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  plateforme)xx\n"
+			+ "order by ttc desc")
 	List<Object[]> statPlateformeById(@Param("id") Integer id);
 	
-	@Query(nativeQuery = true, value = "select  date1,date2,round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
+	@Query(nativeQuery = true, value = "select * from (\n"
+			+ " select   date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ " group by date1,date2")
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by   date1,date2\n"
+			+ "union ALL\n"
+			+ "select   date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by   date1,date2)xx\n"
+			+ "order by ttc desc")
 	List<Object[]> statDateById(@Param("id") Integer id);
 	
 	/*------------------tout les stat sans top 10 UsersById-------------*/
 
-	@Query(nativeQuery = true, value = "\r\n"
-			+ " select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
+	@Query(nativeQuery = true, value = "select * from (\n"
+			+ " select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ " group by  content order by  round(sum(ttc),3) desc limit 10")
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  content\n"
+			+ "union ALL\n"
+			+ "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  content)xx\n"
+			+ "order by ttc desc limit 10")
 	List<Object[]> statChansonUsersById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "select  namea,  round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,"
-			+ "round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ "round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
+	@Query(nativeQuery = true, value =  "select * from (\n"
+			+ " select  namea,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  namea\n"
+			+ "union ALL\n"
+			+ "select  namea,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ " group by    namea \n" + "ORDER BY  round(sum(ttc),3) desc limit 10")
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  namea)xx\n"
+			+ "order by ttc desc limit 10")
 	List<Object[]> statArtisteUsersById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
+	@Query(nativeQuery = true, value = "select * from (\n"
+			+ " select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  category\n"
+			+ "union ALL\n"
+			+ "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ " from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ " group by  category order by round((sum(ttc)),3) desc limit 10")
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  category)xx\n"
+			+ "order by ttc desc limit 10")
 	List<Object[]> statcategoryUsersById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
+	@Query(nativeQuery = true, value ="select * from (\n"
+			+ " select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ " from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  content\n"
+			+ "union ALL\n"
+			+ "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ " group by  content order by   sum(quantite)    desc limit 10")
 
 	List<Object[]> statCountCUsersById(@Param("id") Integer id);
@@ -209,21 +275,34 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ "group by namea \n" + "ORDER BY sum(quantite) DESC limit 10")
 	List<Object[]> statCountAUsersById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "select  date1,date2,round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
+	@Query(nativeQuery = true, value = "select * from (\n"
+			+ " select   date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ " group by date1,date2 order by round((sum(`ttc`)),3) desc limit 10")
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by   date1,date2\n"
+			+ "union ALL\n"
+			+ "select   date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by   date1,date2)xx\n"
+			+ "order by ttc desc limit 10")
 	List<Object[]> statDateUsersById(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "\r\n"
-			+ " select  plateforme, round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
-			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
-			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
+	@Query(nativeQuery = true, value ="select * from (\n"
+			+ " select  plateforme,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
-			+ "group by  plateforme order by TTC   desc limit 10")
+			+ "where namea  LIKE CONCAT((select concat(prenom ,' ',nom) FROM user u where u.id=:id),'%')\n"
+			+ "group by  plateforme\n"
+			+ "union ALL\n"
+			+ "select  plateforme,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
+			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
+			+ "from details \n"
+			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "group by  plateforme)xx\n"
+			+ "order by ttc desc limit 10")
 	List<Object[]> statPlateformeUsersById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value = "\r\n"
