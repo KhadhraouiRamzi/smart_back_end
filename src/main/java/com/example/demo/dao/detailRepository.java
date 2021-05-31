@@ -250,4 +250,5 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			"where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)")
 	List<Object[]> statTotalUsersById(@Param("id") Integer id);
 
+
 }
