@@ -22,7 +22,7 @@ public class user {
 	private String type;
 	private byte[] picByte;
 	private File[] files;
-	private Boolean pro;
+	private Boolean pro = false;
 
 	private String nArtistique;
 	private String phone;
@@ -50,7 +50,7 @@ public class user {
 	@Transient
 	private Integer idRole = new Integer(0);
 
-	public user(String nom, String prenom, String cin, Date datecin, String phone, String email, String password) {
+	public user(String nom, String prenom, String cin, Date datecin, String phone, String email,String password) {
 	}
 
 	public Set<role> getRoles() {
@@ -286,37 +286,7 @@ public class user {
 		this.id = id;
 		this.idRole = idRole;
 	}
-
-	public user(Integer id, Date cdate, Date udate, String nom, String prenom, byte[] image, String name, String type,
-			byte[] picByte, String nArtistique, String phone, String email, String password, Date date,
-			String nationnalite, String cin, Date datecin, Byte[] contrat, double part, double retenu,
-			String proposition, Set<role> roles, com.example.demo.entite.marketing marketing) {
-		super();
-		this.id = id;
-		this.cdate = cdate;
-		this.udate = udate;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.image = image;
-		this.name = name;
-		this.type = type;
-		this.picByte = picByte;
-		this.nArtistique = nArtistique;
-		this.phone = phone;
-		this.email = email;
-		this.password = password;
-		this.date = date;
-		this.nationnalite = nationnalite;
-		this.cin = cin;
-		this.datecin = datecin;
-		this.contrat = contrat;
-		this.part = part;
-		this.retenu = retenu;
-		this.proposition = proposition;
-		this.roles = roles;
-		this.marketing = marketing;
-	}
-
+ 
 	public user(String email, String password) {
 		this.email = email;
 		this.password = password;

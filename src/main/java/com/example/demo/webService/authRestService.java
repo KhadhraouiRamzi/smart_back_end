@@ -74,24 +74,28 @@ public class authRestService {
 		}
 
 		// Create new user's account
-		user user = new user(signUpRequest.getNom(),
-				             signUpRequest.getPrenom(),
-							 signUpRequest.getCin(),
-				             signUpRequest.getDatecin(),
-				             signUpRequest.getPhone(),
+		user user = new user(
 				             signUpRequest.getEmail(),
 							 encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<role> roles = new HashSet<>();
-
+		System.out.println(user.getNom());
+		System.out.println(user.getPrenom());
+		System.out.println(user.getCin());
+		System.out.println(user.getDatecin());
+		System.out.println(user.getPhone());
+		System.out.println(user.getPhone());
+		System.out.println(user.getEmail());
+		System.out.println(user.toString());
+		System.out.println(strRoles);
 		if (strRoles == null) {
 			role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
-				switch (role) {
+				switch (role) {  
 				case "ROLE_ADMIN":
 					com.example.demo.entite.role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));

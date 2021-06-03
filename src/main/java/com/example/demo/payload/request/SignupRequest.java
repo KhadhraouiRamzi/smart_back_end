@@ -50,6 +50,8 @@ public class SignupRequest {
     private  float part  ;
 
     private  float retenu ;
+    
+    private Boolean pro ;
 
     @NotBlank
     @Size(min = 20, max = 40)
@@ -72,13 +74,22 @@ public class SignupRequest {
  
     public void setUsername(String username) {
         this.username = username;
-    }*/
- 
+    }*/ 
+    
+
+    public Boolean getPro() {
+		return pro;
+	}
+
+	public void setPro(Boolean pro) {
+		this.pro = pro;
+	}
+
     public String getEmail() {
         return email;
     }
  
-    public void setEmail(String email) {
+	public void setEmail(String email) {
         this.email = email;
     }
  
