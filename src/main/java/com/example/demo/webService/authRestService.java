@@ -75,12 +75,10 @@ public class authRestService {
 
 		// Create new user's account
 		user user = new user(signUpRequest.getNom(),
-				             signUpRequest.getPrenom(),
-							 signUpRequest.getCin(),
-				             signUpRequest.getDatecin(),
-				             signUpRequest.getPhone(),
-				             signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+				signUpRequest.getPrenom(),
+				signUpRequest.getPhone(),
+				signUpRequest.getEmail(),
+				encoder.encode(signUpRequest.getPassword()));
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<role> roles = new HashSet<>();
@@ -131,8 +129,9 @@ public class authRestService {
 		}
 
 		user.setRoles(roles);
+		System.out.println("email: "+user.getEmail());
 		userRepository.save(user);
-
+		System.out.println("email: "+user.getEmail());
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	

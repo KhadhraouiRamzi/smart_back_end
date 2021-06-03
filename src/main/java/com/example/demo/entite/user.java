@@ -50,7 +50,13 @@ public class user {
 	@Transient
 	private Integer idRole = new Integer(0);
 
-	public user(String nom, String prenom, String cin, Date datecin, String phone, String email, String password) {
+	public user(String nom, String prenom, String phone, String email, String password) {
+		this.nom = nom;
+		this.prenom = prenom;
+		this.phone = phone;
+		this.email = email;
+		this.password = password;
+
 	}
 
 	public Set<role> getRoles() {
@@ -290,7 +296,7 @@ public class user {
 	public user(Integer id, Date cdate, Date udate, String nom, String prenom, byte[] image, String name, String type,
 			byte[] picByte, String nArtistique, String phone, String email, String password, Date date,
 			String nationnalite, String cin, Date datecin, Byte[] contrat, double part, double retenu,
-			String proposition, Set<role> roles, com.example.demo.entite.marketing marketing) {
+			String proposition, Set<role> roles, com.example.demo.entite.marketing marketing,boolean pro) {
 		super();
 		this.id = id;
 		this.cdate = cdate;
@@ -315,6 +321,7 @@ public class user {
 		this.proposition = proposition;
 		this.roles = roles;
 		this.marketing = marketing;
+		this.pro= pro;
 	}
 
 	public user(String email, String password) {

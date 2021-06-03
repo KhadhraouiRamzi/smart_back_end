@@ -92,7 +92,7 @@ public class userRestService {
 		user newU = new user(p.getId(), p.getCdate(),p.getUdate(), p.getNom(), p.getPrenom(), p.getImage(),p.getName(),p.getType(),
 				p.getPicByte(),p.getnArtistique(), p.getPhone(),p.getEmail(),p.getPassword(),p.getDate(),
 				p.getNationnalite(), p.getCin(), p.getDatecin(), p.getContrat(),p.getPart(), p.getRetenu(),
-				p.getProposition(),p.getRoles(),p.getMarketing());
+				p.getProposition(),p.getRoles(),p.getMarketing(),p.getPro());
 		System.out.println("aa" +p.getIdRole());
 		System.out.println("bb" +p.getName());
 		System.out.println("cc" +newU.getIdRole());

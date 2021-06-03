@@ -63,6 +63,8 @@ public class SignupRequest {
 
     private Date udate;
 
+    private boolean pro;
+
 
 
   
@@ -216,5 +218,13 @@ public class SignupRequest {
 
     public void setUdate(Date udate) {
         this.udate = udate;
+    }
+
+    public boolean getPro() {
+        return pro;
+    }
+
+    public void setPro(boolean pro) {
+        this.pro = pro;
     }
 }
