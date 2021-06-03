@@ -113,7 +113,25 @@ public class ExcelService {
                             details.setPlateforme(currentCell.getStringCellValue());
                             break;
                         case 4:
-                            details.setNamea(currentCell.getStringCellValue());
+                        	String nom_artiste;
+                        switch (currentCell.getStringCellValue()) {
+                        case "Lotfi_Bouchnak" : 
+                        	nom_artiste ="Lotfi Bouchnak";
+                            break;
+                            
+                        case "Saber El Rebai" : 
+                        	nom_artiste ="Saber Rebai";
+                            break;
+                            
+                        case "Ines Feat Kafon" : 
+                        	nom_artiste ="In-s Feat Kafon";
+                            break;    
+                            
+                        default: nom_artiste = currentCell.getStringCellValue();
+                        break;
+                        }
+                            details.setNamea(nom_artiste);  
+                            System.out.println(nom_artiste);
                             System.out.println(currentCell.getStringCellValue());
                             break;
                         case 5:
