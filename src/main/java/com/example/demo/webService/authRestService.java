@@ -129,9 +129,8 @@ public class authRestService {
 		}
 
 		user.setRoles(roles);
-		System.out.println("email: "+user.getEmail());
 		userRepository.save(user);
-		System.out.println("email: "+user.getEmail());
+
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	

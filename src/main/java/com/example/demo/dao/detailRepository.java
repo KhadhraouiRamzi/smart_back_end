@@ -77,8 +77,7 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 
 	/*------------------tout les stat sans top 10-------------*/
 
-	@Query(nativeQuery = true, value = "\r\n"
-			+ " select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
+	@Query(nativeQuery = true, value = " select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
 			+ "from details group by  content order by  round(sum(ttc),3) desc ")
@@ -300,7 +299,8 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ "select  plateforme,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
 			+ "from details \n"
-			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "where namea  LIKE CONCAT((select n_artistique "
+			+ "FROM user u where u.id=:id),'%')\n"
 			+ "group by  plateforme)xx\n"
 			+ "order by ttc desc limit 10")
 	List<Object[]> statPlateformeUsersById(@Param("id") Integer id);
