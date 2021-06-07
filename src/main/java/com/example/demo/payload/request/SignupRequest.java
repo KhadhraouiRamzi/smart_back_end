@@ -64,19 +64,6 @@ public class SignupRequest {
     private Date cdate  ;
 
     private Date udate;
-
-    private boolean pro;
-
-
-
-  
-/*    public String getUsername() {
-        return username;
-    }
- 
-    public void setUsername(String username) {
-        this.username = username;
-    }*/ 
     
 
     public Boolean getPro() {
@@ -231,11 +218,5 @@ public class SignupRequest {
         this.udate = udate;
     }
 
-    public boolean getPro() {
-        return pro;
-    }
 
-    public void setPro(boolean pro) {
-        this.pro = pro;
-    }
 }

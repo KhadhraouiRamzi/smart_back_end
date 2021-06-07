@@ -4,12 +4,16 @@ import com.example.demo.dao.detailRepository;
 import com.example.demo.entite.details;
 import com.example.demo.excel.ExcelService;
 import com.example.demo.excel.ResponseMessage;
+import com.example.demo.pdf.pdfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
  
@@ -25,6 +29,9 @@ public class detailRestService {
 
 	@Autowired
 	ExcelService excelService;
+
+	@Autowired
+	pdfService PdfService;
 	
 	@RequestMapping(path = "/details", method = RequestMethod.GET)
 	public List<details> listeCategorie() {
@@ -238,6 +245,24 @@ public class detailRestService {
 		message = "Please upload an excel file!";
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
 	}
+
+	/*--------------*web Service pour la generation des rapport finale*--------------*/
+
+	@PostMapping(path = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}")
+	public ResponseEntity<ResponseMessage> rapportArtisteOrange(@PathVariable("id") Integer id, @PathVariable("datedebut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.util.Date datedebut, @PathVariable("datefin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date datefin) throws ParseException {
+
+		String message = "done !";
+/*		System.out.println(datedebut);
+		System.out.println(datefin);*/
+/*		java.sql.Date date1= java.sql.Date.valueOf(datedebut);
+		java.sql.Date date2= java.sql.Date.valueOf(datefin);*/
+
+		PdfService.toPDF(id,datedebut,datefin);
+
+		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+	}
+
+
 
 }
 
