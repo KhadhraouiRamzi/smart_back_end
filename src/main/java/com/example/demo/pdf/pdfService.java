@@ -31,7 +31,7 @@ public class pdfService {
     detailRepository DetailRepository;
 
 
-    public String toPDF(Integer idUSer, Date datedebut, Date datefin) {
+    public String toPDF(Integer idUSer, Date datedebut, Date datefin) throws pdfExceptionNoDataFound {
 
         String URL_file = null;
 
@@ -41,6 +41,7 @@ public class pdfService {
 
 
         Optional<user> u = UserRepository.findById(idUSer);
+
         List<Double> details = DetailRepository.rapportStatTotalUsersById(idUSer, datedebut, datefin);
 
         Date d = new Date();
@@ -127,126 +128,129 @@ public class pdfService {
                         PdfPCell cell12 = new PdfPCell(new Paragraph("Retenue à source 15%", catFont15B));
                         PdfPCell cell13 = new PdfPCell(new Paragraph("Retenue à source 5%", catFont15B));
                         PdfPCell cell14 = new PdfPCell(new Paragraph("Total à Payer", catFont15B));
-                        PdfPCell cell15 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
-                        PdfPCell cell16 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.05), catFont15B));
-                        PdfPCell cell17 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.15), catFont15B));
-                        PdfPCell cell18 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
-                        PdfPCell cell19 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.1), catFont15B));
-                        PdfPCell cell20 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.1), catFont15B));
-                        PdfPCell cell21 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.05), catFont15B));
-                        PdfPCell cell22 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.15), catFont15B));
+
+                        if(details.get(0)!=null) {
 
 
-                        /*cell1.setBorder(BOLD);*/
-                        cell1.setBackgroundColor(new BaseColor(190, 209, 220));
-                        cell2.setBackgroundColor(new BaseColor(190, 209, 220));
-                        cell9.setBackgroundColor(new BaseColor(190, 209, 220));
-                        cell10.setBackgroundColor(new BaseColor(190, 209, 220));
-                        cell11.setBackgroundColor(new BaseColor(190, 209, 220));
-                        cell12.setBackgroundColor(new BaseColor(190, 209, 220));
-                        cell14.setBackgroundColor(new BaseColor(190, 209, 220));
+                            PdfPCell cell15 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
+                            PdfPCell cell16 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.05), catFont15B));
+                            PdfPCell cell17 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.15), catFont15B));
+                            PdfPCell cell18 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
+                            PdfPCell cell19 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.1), catFont15B));
+                            PdfPCell cell20 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.1), catFont15B));
+                            PdfPCell cell21 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.05), catFont15B));
+                            PdfPCell cell22 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.15), catFont15B));
 
-                        // Add cells in table
-                        table4.addCell(cell1);
-                        table4.addCell(cell15);
+
+                            /*cell1.setBorder(BOLD);*/
+                            cell1.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell2.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell9.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell10.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell11.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell12.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell13.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell14.setBackgroundColor(new BaseColor(190, 209, 220));
+
+                            // Add cells in table
+                            table4.addCell(cell1);
+                            table4.addCell(cell15);
 
 /*                        table4.addCell(cell2);
                         table4.addCell(cell16);
                         table4.addCell(cell9);
                         table4.addCell(cell117);*/
 
-                        table4.addCell(cell10);
-                        table4.addCell(cell18);
-                        if (u.get().getPro() == true) {
-                            table4.addCell(cell13);
-                            table4.addCell(cell16);
-                            table4.addCell(cell14);
-                            table4.addCell(cell21);
-                        } else {
-                            if (datedebut.getYear()+1900 < 2021) {
-                                table4.addCell(cell12);
-                                table4.addCell(cell17);
+                            table4.addCell(cell10);
+                            table4.addCell(cell18);
+                            if (u.get().getPro() == true) {
+                                table4.addCell(cell13);
+                                table4.addCell(cell16);
                                 table4.addCell(cell14);
-                                table4.addCell(cell22);
+                                table4.addCell(cell21);
+                            } else {
+                                if (datedebut.getYear() + 1900 < 2021) {
+                                    table4.addCell(cell12);
+                                    table4.addCell(cell17);
+                                    table4.addCell(cell14);
+                                    table4.addCell(cell22);
+                                } else if (datedebut.getYear() + 1900 >= 2021) {
+                                    table4.addCell(cell11);
+                                    table4.addCell(cell19);
+                                    table4.addCell(cell14);
+                                    table4.addCell(cell20);
+                                }
                             }
-                            else if(datedebut.getYear()+1900 >= 2021) {
-                                table4.addCell(cell11);
-                                table4.addCell(cell19);
-                                table4.addCell(cell14);
-                                table4.addCell(cell20);
-                            }
-                        }
 /*                        table4.addCell(cell11);
                         table4.addCell(cell19);*/
 
 
+                            PdfPTable table5 = new PdfPTable(3);
 
-                        PdfPTable table5 = new PdfPTable(3);
+                            PdfPCell cell4 = new PdfPCell(new Paragraph("Smart Technology"));
+                            PdfPCell cell5 = new PdfPCell(new Paragraph("L'artiste :" + u.get().getNom() + " " + u.get().getPrenom()));
+                            PdfPCell cell6 = new PdfPCell(new Paragraph("Reçu Le :" + formaterr.format(d)));
 
-                        PdfPCell cell4 = new PdfPCell(new Paragraph("Smart Technology"));
-                        PdfPCell cell5 = new PdfPCell(new Paragraph("L'artiste :" + u.get().getNom() + " " + u.get().getPrenom()));
-                        PdfPCell cell6 = new PdfPCell(new Paragraph("Reçu Le :" + formaterr.format(d)));
-
-                        cell4.setFixedHeight(150);
-                        cell5.setFixedHeight(150);
-                        cell6.setFixedHeight(150);
-                        cell6.setVerticalAlignment(Element.ALIGN_MIDDLE);
-                        table5.addCell(cell6);
-                        table5.addCell(cell4);
-                        table5.addCell(cell5);
-
-
-                        PdfPTable table7 = new PdfPTable(1);
-
-                        PdfPCell cell8 = new PdfPCell();
-                        cell4.setFixedHeight(200);
-                        Paragraph p = new Paragraph("Smart Technology", catFont15B);
-                        Paragraph pp = new Paragraph("26 Rue Hamza Ibn El Mouttaleb, 2091 El Menzah 6  - Tunis - Tunisie");
-                        Paragraph ppp = new Paragraph(" TEL : +216 71 231 310 / 312 FAX : +216 71 231 035   contact@smartechnology.com.tn \n");
-
-                        p.setAlignment(Element.ALIGN_CENTER);
-                        pp.setAlignment(Element.ALIGN_CENTER);
-                        ppp.setAlignment(Element.ALIGN_CENTER);
+                            cell4.setFixedHeight(150);
+                            cell5.setFixedHeight(150);
+                            cell6.setFixedHeight(150);
+                            cell6.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                            table5.addCell(cell6);
+                            table5.addCell(cell4);
+                            table5.addCell(cell5);
 
 
-                        cell8.addElement(p);
-                        cell8.addElement(pp);
-                        cell8.addElement(ppp);
+                            PdfPTable table7 = new PdfPTable(1);
 
-                        table7.addCell(cell8);
+                            PdfPCell cell8 = new PdfPCell();
+                            cell4.setFixedHeight(200);
+                            Paragraph p = new Paragraph("Smart Technology", catFont15B);
+                            Paragraph pp = new Paragraph("26 Rue Hamza Ibn El Mouttaleb, 2091 El Menzah 6  - Tunis - Tunisie");
+                            Paragraph ppp = new Paragraph(" TEL : +216 71 231 310 / 312 FAX : +216 71 231 035   contact@smartechnology.com.tn \n");
 
-                        my_pdf_report.add(imgBank);
-                        my_pdf_report.add(espace);
-                        my_pdf_report.add(espace);
-                        my_pdf_report.add(table6);
-
-                        my_pdf_report.add(espace);
-
-                        my_pdf_report.add(espace);
-
-                        my_pdf_report.add(espace);
-
-                        my_pdf_report.add(table4);
-
-                        my_pdf_report.add(espace);
-
-                        my_pdf_report.add(espace);
-
-                        my_pdf_report.add(espace);
-
-                        my_pdf_report.add(table5);
-                        my_pdf_report.add(espace);
-                        my_pdf_report.add(espace);
-                        my_pdf_report.add(table7);
-
-                        my_pdf_report.close();
-                        file.close();
-
-                        Runtime.getRuntime()
-                                .exec("rundll32 url.dll,FileProtocolHandler C:\\Users\\ASUS\\Documents\\Rapport_" + u.get().getNom() + " " + u.get().getPrenom() + "-" + formater.format(d) + ".pdf");
-                        // p.waitFor(2, TimeUnit.SECONDS);
+                            p.setAlignment(Element.ALIGN_CENTER);
+                            pp.setAlignment(Element.ALIGN_CENTER);
+                            ppp.setAlignment(Element.ALIGN_CENTER);
 
 
+                            cell8.addElement(p);
+                            cell8.addElement(pp);
+                            cell8.addElement(ppp);
+
+                            table7.addCell(cell8);
+
+                            my_pdf_report.add(imgBank);
+                            my_pdf_report.add(espace);
+                            my_pdf_report.add(espace);
+                            my_pdf_report.add(table6);
+
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(table4);
+
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(table5);
+                            my_pdf_report.add(espace);
+                            my_pdf_report.add(espace);
+                            my_pdf_report.add(table7);
+
+                            my_pdf_report.close();
+                            file.close();
+
+                            Runtime.getRuntime()
+                                    .exec("rundll32 url.dll,FileProtocolHandler C:\\Users\\ASUS\\Documents\\Rapport_" + u.get().getNom() + " " + u.get().getPrenom() + "-" + formater.format(d) + ".pdf");
+                            // p.waitFor(2, TimeUnit.SECONDS);
+
+                        } else throw new pdfExceptionNoDataFound(u.get().getNom()+" "+u.get().getPrenom()+"n'a aucun revenue dans cette date !! verfier la date que vous avez choisir !");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -261,6 +265,7 @@ public class pdfService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         return "RAPPORT-" + u.get().getNom() + " " + u.get().getPrenom() + "-" + formater.format(d) + ".pdf";
 
