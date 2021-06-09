@@ -31,7 +31,7 @@ public class pdfService {
     detailRepository DetailRepository;
 
 
-    public String toPDF(Integer idUSer, Date datedebut, Date datefin) throws pdfExceptionNoDataFound {
+    public String toPDF(Integer idUSer, Date datedebut, Date datefin,Double retenue) throws pdfExceptionNoDataFound {
 
         String URL_file = null;
 
@@ -80,8 +80,8 @@ public class pdfService {
                         imgBank = Image.getInstance("D:\\Cours_5ème\\PFE\\Backend\\smart_back_end\\src\\main\\resources\\Images\\smart_technology.png");
 
                         //767
-                        imgBank.setAbsolutePosition(50, 769);
-                        imgBank.scaleAbsolute(90, 70);
+                        imgBank.setAbsolutePosition(200, 700);
+                        imgBank.scaleAbsolute(200, 150);
 
                         //Dateeee
                         DateFormat df = new SimpleDateFormat("dd MMMM yyyy");
@@ -110,8 +110,8 @@ public class pdfService {
 
                         // Create cells
                         PdfPCell cell7 = new PdfPCell(new Paragraph("Rapport " + u.get().getNom() + " " + u.get().getPrenom() + " Orange " + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
-                        cell7.setHorizontalAlignment(Element.ALIGN_MIDDLE);
-                        cell7.setFixedHeight(50);
+                        cell7.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        cell7.setFixedHeight(30);
                         table6.addCell(cell7);
 
 
@@ -142,7 +142,6 @@ public class pdfService {
                             PdfPCell cell22 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.15), catFont15B));
 
 
-                            /*cell1.setBorder(BOLD);*/
                             cell1.setBackgroundColor(new BaseColor(190, 209, 220));
                             cell2.setBackgroundColor(new BaseColor(190, 209, 220));
                             cell9.setBackgroundColor(new BaseColor(190, 209, 220));
@@ -152,37 +151,44 @@ public class pdfService {
                             cell13.setBackgroundColor(new BaseColor(190, 209, 220));
                             cell14.setBackgroundColor(new BaseColor(190, 209, 220));
 
+                            cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell9.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell10.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell11.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell12.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell13.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell14.setHorizontalAlignment(Element.ALIGN_CENTER);
+
                             // Add cells in table
                             table4.addCell(cell1);
                             table4.addCell(cell15);
 
-/*                        table4.addCell(cell2);
-                        table4.addCell(cell16);
-                        table4.addCell(cell9);
-                        table4.addCell(cell117);*/
-
                             table4.addCell(cell10);
                             table4.addCell(cell18);
-                            if (u.get().getPro() == true) {
+
+                            if(retenue==5) {
                                 table4.addCell(cell13);
                                 table4.addCell(cell16);
                                 table4.addCell(cell14);
                                 table4.addCell(cell21);
-                            } else {
-                                if (datedebut.getYear() + 1900 < 2021) {
-                                    table4.addCell(cell12);
-                                    table4.addCell(cell17);
-                                    table4.addCell(cell14);
-                                    table4.addCell(cell22);
-                                } else if (datedebut.getYear() + 1900 >= 2021) {
-                                    table4.addCell(cell11);
-                                    table4.addCell(cell19);
-                                    table4.addCell(cell14);
-                                    table4.addCell(cell20);
-                                }
                             }
-/*                        table4.addCell(cell11);
-                        table4.addCell(cell19);*/
+                            else if(retenue==15) {
+                                table4.addCell(cell12);
+                                table4.addCell(cell17);
+                                table4.addCell(cell14);
+                                table4.addCell(cell22);
+                            }
+                            else if(retenue==10){
+                                table4.addCell(cell11);
+                                table4.addCell(cell19);
+                                table4.addCell(cell14);
+                                table4.addCell(cell20);
+                            }
+                            else
+                                table4.addCell(cell14);
+                                table4.addCell(cell18);
+
 
 
                             PdfPTable table5 = new PdfPTable(3);
@@ -218,6 +224,14 @@ public class pdfService {
                             cell8.addElement(ppp);
 
                             table7.addCell(cell8);
+
+
+                            my_pdf_report.add(espace);
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(espace);
+
+                            my_pdf_report.add(espace);
 
                             my_pdf_report.add(imgBank);
                             my_pdf_report.add(espace);

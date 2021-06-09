@@ -249,15 +249,15 @@ public class detailRestService {
 
 	/*--------------*web Service pour la generation des rapport finale*--------------*/
 
-	@PostMapping(path = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}")
-	public ResponseEntity<ResponseMessage> rapportArtisteOrange(@PathVariable("id") Integer id, @PathVariable("datedebut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.util.Date datedebut, @PathVariable("datefin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date datefin) throws pdfExceptionNoDataFound,pdfExceptionDateFormat {
+	@PostMapping(path = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}")
+	public ResponseEntity<ResponseMessage> rapportArtisteOrange(@PathVariable("id") Integer id, @PathVariable("datedebut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.util.Date datedebut, @PathVariable("datefin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date datefin,@PathVariable("retenue") Double retenue) throws pdfExceptionNoDataFound,pdfExceptionDateFormat {
 
 		String message = "done !";
 		try{
 			if(datedebut.after(datefin)){
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(new pdfExceptionDateFormat("verifiez les dates !!").getMessage()));
 			}
-			PdfService.toPDF(id,datedebut,datefin);
+			PdfService.toPDF(id,datedebut,datefin,retenue);
 		}catch (pdfExceptionNoDataFound p) {
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(p.getMessage()));
 		}
