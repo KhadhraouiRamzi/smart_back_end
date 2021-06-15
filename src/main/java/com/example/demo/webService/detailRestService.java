@@ -5,17 +5,17 @@ import com.example.demo.entite.details;
 import com.example.demo.entite.devise;
 import com.example.demo.excel.ExcelService;
 import com.example.demo.excel.ResponseMessage;
+import com.example.demo.payload.request.revenueRequest;
 import com.example.demo.pdf.pdfExceptionDateFormat;
 import com.example.demo.pdf.pdfExceptionNoDataFound;
 import com.example.demo.pdf.pdfService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -243,15 +243,15 @@ public class detailRestService {
 
 	/*--------------*web Service pour la generation des rapport finale*--------------*/
 
-	@PostMapping(path = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}")
-	public ResponseEntity<ResponseMessage> rapportArtisteOrange(@PathVariable("id") Integer id, @PathVariable("datedebut") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) java.util.Date datedebut, @PathVariable("datefin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date datefin,@PathVariable("retenue") Double retenue) throws pdfExceptionNoDataFound,pdfExceptionDateFormat {
+	@RequestMapping(value = "/rapportOrange/by-userId-datedebut-datefin", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<ResponseMessage> rapportArtisteOrange(@Valid @RequestBody revenueRequest revReq) throws pdfExceptionNoDataFound,pdfExceptionDateFormat {
 
 		String message = "done !";
 		try{
-			if(datedebut.after(datefin)){
+			if(revReq.getDatedebut().after(revReq.getDatefin())){
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(new pdfExceptionDateFormat("verifiez les dates !!").getMessage()));
 			}
-			PdfService.toPDF(id,datedebut,datefin,retenue);
+			PdfService.toPDF(revReq.getId(),revReq.getDatedebut(), revReq.getDatefin(),revReq.getRetenue());
 		}catch (pdfExceptionNoDataFound p) {
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(p.getMessage()));
 		}
