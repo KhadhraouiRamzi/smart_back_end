@@ -118,28 +118,30 @@ public class pdfService {
                         PdfPTable table4 = new PdfPTable(2); // Create 2 columns in table.
 
                         DecimalFormat decimal = new DecimalFormat("#.000");
+                        DecimalFormat decimal2 = new DecimalFormat("###.#");
+
 
                         // Create cells
                         PdfPCell cell1 = new PdfPCell(new Paragraph("Orange " + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
                         PdfPCell cell2 = new PdfPCell(new Paragraph("Believe" + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
                         PdfPCell cell9 = new PdfPCell(new Paragraph("Deezer" + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
                         PdfPCell cell10 = new PdfPCell(new Paragraph("S-Total", catFont15B));
-                        PdfPCell cell11 = new PdfPCell(new Paragraph("Retenue à source 10%", catFont15B));
-                        PdfPCell cell12 = new PdfPCell(new Paragraph("Retenue à source 15%", catFont15B));
-                        PdfPCell cell13 = new PdfPCell(new Paragraph("Retenue à source 5%", catFont15B));
+                        PdfPCell cell11 = new PdfPCell(new Paragraph("Retenue à source "+decimal2.format(retenue)+"%", catFont15B));
+/*                        PdfPCell cell12 = new PdfPCell(new Paragraph("Retenue à source 15%", catFont15B));
+                        PdfPCell cell13 = new PdfPCell(new Paragraph("Retenue à source 5%", catFont15B));*/
                         PdfPCell cell14 = new PdfPCell(new Paragraph("Total à Payer", catFont15B));
 
                         if(details.get(0)!=null) {
 
 
                             PdfPCell cell15 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
-                            PdfPCell cell16 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.05), catFont15B));
-                            PdfPCell cell17 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.15), catFont15B));
+/*                            PdfPCell cell16 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.05), catFont15B));
+                            PdfPCell cell17 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.15), catFont15B));*/
                             PdfPCell cell18 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
-                            PdfPCell cell19 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.1), catFont15B));
-                            PdfPCell cell20 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.1), catFont15B));
-                            PdfPCell cell21 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.05), catFont15B));
-                            PdfPCell cell22 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.15), catFont15B));
+                            PdfPCell cell19 = new PdfPCell(new Paragraph("" + decimal.format((details.get(0) * retenue)/100 ), catFont15B));
+                            PdfPCell cell20 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * (retenue/100)), catFont15B));
+/*                            PdfPCell cell21 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.05), catFont15B));
+                            PdfPCell cell22 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.15), catFont15B));*/
 
 
                             cell1.setBackgroundColor(new BaseColor(190, 209, 220));
@@ -147,8 +149,8 @@ public class pdfService {
                             cell9.setBackgroundColor(new BaseColor(190, 209, 220));
                             cell10.setBackgroundColor(new BaseColor(190, 209, 220));
                             cell11.setBackgroundColor(new BaseColor(190, 209, 220));
-                            cell12.setBackgroundColor(new BaseColor(190, 209, 220));
-                            cell13.setBackgroundColor(new BaseColor(190, 209, 220));
+/*                            cell12.setBackgroundColor(new BaseColor(190, 209, 220));
+                            cell13.setBackgroundColor(new BaseColor(190, 209, 220));*/
                             cell14.setBackgroundColor(new BaseColor(190, 209, 220));
 
                             cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -156,9 +158,13 @@ public class pdfService {
                             cell9.setHorizontalAlignment(Element.ALIGN_CENTER);
                             cell10.setHorizontalAlignment(Element.ALIGN_CENTER);
                             cell11.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            cell12.setHorizontalAlignment(Element.ALIGN_CENTER);
-                            cell13.setHorizontalAlignment(Element.ALIGN_CENTER);
+/*                            cell12.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell13.setHorizontalAlignment(Element.ALIGN_CENTER);*/
                             cell14.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell15.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell18.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell19.setHorizontalAlignment(Element.ALIGN_CENTER);
+                            cell20.setHorizontalAlignment(Element.ALIGN_CENTER);
 
                             // Add cells in table
                             table4.addCell(cell1);
@@ -167,28 +173,11 @@ public class pdfService {
                             table4.addCell(cell10);
                             table4.addCell(cell18);
 
-                            if(retenue==5) {
-                                table4.addCell(cell13);
-                                table4.addCell(cell16);
-                                table4.addCell(cell14);
-                                table4.addCell(cell21);
-                            }
-                            else if(retenue==15) {
-                                table4.addCell(cell12);
-                                table4.addCell(cell17);
-                                table4.addCell(cell14);
-                                table4.addCell(cell22);
-                            }
-                            else if(retenue==10){
-                                table4.addCell(cell11);
-                                table4.addCell(cell19);
-                                table4.addCell(cell14);
-                                table4.addCell(cell20);
-                            }
-                            else
-                                table4.addCell(cell14);
-                                table4.addCell(cell18);
+                            table4.addCell(cell11);
+                            table4.addCell(cell19);
 
+                            table4.addCell(cell14);
+                            table4.addCell(cell20);
 
 
                             PdfPTable table5 = new PdfPTable(3);
