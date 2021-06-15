@@ -15,7 +15,7 @@ import com.example.demo.dao.plateformeRepository;
 import com.example.demo.entite.plateforme;
  
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class plateformeRestService {
 

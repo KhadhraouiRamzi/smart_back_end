@@ -15,7 +15,7 @@ import com.example.demo.dao.marketingRepository;
 import com.example.demo.entite.marketing;
  
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class marketingRestService {
 

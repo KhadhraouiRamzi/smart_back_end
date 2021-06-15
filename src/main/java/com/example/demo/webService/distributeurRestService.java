@@ -16,7 +16,7 @@ import com.example.demo.entite.distributeur;
   
 
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class distributeurRestService {
 

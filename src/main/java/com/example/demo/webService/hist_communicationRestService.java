@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entite.hist_communication;
 
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class hist_communicationRestService {
 

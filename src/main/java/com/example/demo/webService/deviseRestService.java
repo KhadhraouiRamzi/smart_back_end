@@ -16,7 +16,7 @@ import com.example.demo.entite.devise;
 
 
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class deviseRestService {
 

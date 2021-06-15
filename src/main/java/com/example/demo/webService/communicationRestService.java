@@ -15,7 +15,7 @@ import com.example.demo.dao.communicationRepository;
 import com.example.demo.entite.communication;
  
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class communicationRestService {
 

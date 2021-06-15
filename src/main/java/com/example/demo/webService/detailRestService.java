@@ -2,6 +2,7 @@ package com.example.demo.webService;
 
 import com.example.demo.dao.detailRepository;
 import com.example.demo.entite.details;
+import com.example.demo.entite.devise;
 import com.example.demo.excel.ExcelService;
 import com.example.demo.excel.ResponseMessage;
 import com.example.demo.pdf.pdfExceptionDateFormat;
@@ -17,27 +18,36 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
- 
 
-	
-
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class detailRestService {
-	
+
 	@Autowired
-	detailRepository DetailRepository ;
+	detailRepository DetailRepository;
 
 	@Autowired
 	ExcelService excelService;
 
 	@Autowired
 	pdfService PdfService;
-	
+
 	@RequestMapping(path = "/details", method = RequestMethod.GET)
-	public List<details> listeCategorie() {
-		return DetailRepository.GetDetails();
-	}	 
+	public List<devise> listeDevise() {
+		return DetailRepository.listDetails();
+	}
+
+	@RequestMapping(path = "/newdetails", method = RequestMethod.POST)
+	public Integer adddetails(@RequestBody details p) {
+		DetailRepository.save(p);
+		return p.getId();
+
+	}
+
+	@RequestMapping(path = "/deleteDetails/{id}", method = RequestMethod.DELETE)
+	public void deleteByExcludedId(@PathVariable("id") Integer id) {
+		DetailRepository.deleteById(id);
+	}
 
 	@RequestMapping(path = "/listArtiste", method = RequestMethod.GET)
 	public List<details> lisArtistet() {
@@ -81,7 +91,6 @@ public class detailRestService {
 	public List<Object[]> topArtiste() {
 		return DetailRepository.topArtiste();
 	}
-
 
 	@RequestMapping(path = "/topCategory", method = RequestMethod.GET)
 	public List<Object[]> topCategory() {
@@ -144,76 +153,62 @@ public class detailRestService {
 	public List<Object[]> statPlateformeC() {
 		return DetailRepository.statPlateformeC();
 	}
-	
+
 	/*-----------tout les stat sans top 10 By Users Connected-------------*/
-	
 
 	@RequestMapping(path = "/statArtiste/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statArtisteById(@PathVariable("id") Integer id) {
 		return DetailRepository.statArtisteById(id);
 	}
-	 
 
 	@RequestMapping(path = "/statChanson/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statChansonById(@PathVariable("id") Integer id) {
-		return DetailRepository.statChansonById(id); 
- 	}
-	 
+		return DetailRepository.statChansonById(id);
+	}
 
 	@RequestMapping(path = "/statCategorie/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statCategorieById(@PathVariable("id") Integer id) {
-		return DetailRepository.statCategoryById(id); 
+		return DetailRepository.statCategoryById(id);
 	}
-	
 
 	@RequestMapping(path = "/statPlateforme/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statPlateformeById(@PathVariable("id") Integer id) {
-		return DetailRepository.statPlateformeById(id); 
- 	}
-	
-	
+		return DetailRepository.statPlateformeById(id);
+	}
 
 	@RequestMapping(path = "/statDate/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statDateById(@PathVariable("id") Integer id) {
-		return DetailRepository.statDateById(id); 
- 	}
-	
+		return DetailRepository.statDateById(id);
+	}
 
 	/*-----------tout les stat sans top 10 By Users Connected-------------*/
-
 
 	@RequestMapping(path = "/topArtiste/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statArtisteUsersById(@PathVariable("id") Integer id) {
 		return DetailRepository.statArtisteUsersById(id);
 	}
 
-
 	@RequestMapping(path = "/topChanson/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statChansonUsersById(@PathVariable("id") Integer id) {
 		return DetailRepository.statChansonUsersById(id);
- 	}
-
+	}
 
 	@RequestMapping(path = "/topCategory/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statcategoryUsersById(@PathVariable("id") Integer id) {
 		return DetailRepository.statcategoryUsersById(id);
 	}
 
-
 	@RequestMapping(path = "/topPlateforme/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statPlateformeUsersById(@PathVariable("id") Integer id) {
 		return DetailRepository.statPlateformeUsersById(id);
- 	}
-
-
+	}
 
 	@RequestMapping(path = "/topDate/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statDateUsersById(@PathVariable("id") Integer id) {
 		return DetailRepository.statDateUsersById(id);
- 	}
+	}
 
 	/*-----------web service pour les totaux des stats----------------*/
-
 
 	@RequestMapping(path = "/statTotal", method = RequestMethod.GET)
 	public List<Object[]> statTotal() {
@@ -225,7 +220,6 @@ public class detailRestService {
 		return DetailRepository.statTotalUsersById(id);
 	}
 
-	
 	/*--------------*web Service pour l'upload des details*--------------*/
 
 	@PostMapping("/uploadExcel")
@@ -239,10 +233,10 @@ public class detailRestService {
 				message = "Uploaded the file successfully: " + file.getOriginalFilename();
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 			} catch (Exception e) {
-				message = "Could not upload the file: " + file.getOriginalFilename() + ": "+e;
+				message = "Could not upload the file: " + file.getOriginalFilename() + ": " + e;
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 			}
-		}  
+		}
 		message = "Please upload an excel file!";
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
 	}

@@ -17,7 +17,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 public class userRestService {
 

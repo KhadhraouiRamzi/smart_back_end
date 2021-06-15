@@ -15,7 +15,7 @@ public interface detailRepository extends JpaRepository<details, Integer> {
     String DELETE = null;
 
     @Query("select c from details c  ")
-    List GetDetails();
+    List listDetails();
 
     @Query(nativeQuery = true, value = "select *  from details    \r\n")
         //

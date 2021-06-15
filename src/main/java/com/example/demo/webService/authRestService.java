@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class authRestService {
