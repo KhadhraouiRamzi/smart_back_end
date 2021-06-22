@@ -39,7 +39,8 @@ public class details {
 	private  Double part_TTC  ;
 	private  Double HTVA  ;
 	private  Double part_artiste  ;
-	
+	private Boolean paye = false;
+
 	/*@ManyToMany
     private Set<chanson> chanson = new HashSet<>();
     private chanson chanson ;X
@@ -249,9 +250,22 @@ public class details {
 		this.idChanson = idChanson;
 	} 
 */
+	
 	public List<details> getChanson() {
 		return chanson;
 	}
+	public Boolean getPaye() {
+		return paye;
+	}
+
+	public void setPaye(Boolean paye) {
+		this.paye = paye;
+	}
+
+	public void setQuantite(Integer quantite) {
+		this.quantite = quantite;
+	}
+
 	public void setChanson(List<details> chanson) {
 		this.chanson = chanson;
 	}

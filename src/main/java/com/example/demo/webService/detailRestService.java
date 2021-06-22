@@ -12,14 +12,15 @@ import com.example.demo.pdf.pdfExceptionNoDataFound;
 import com.example.demo.pdf.pdfService;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -286,18 +287,26 @@ public class detailRestService {
 
 
 	}
-/*
-	@RequestMapping(value = "/get/pdf", method = RequestMethod.GET)
-	public Object getRapportArtisteOrange(@PathVariable("fileName") String fileName) throws pdfExceptionNoDataFound,pdfExceptionDateFormat, IOException, DocumentException {
 
-		String message = "done !";
+	/*--------------------- web service Revenu------------------*/
 
-			File file = new File(PdfService.toPDF(revReq.getId(),revReq.getDatedebut(), revReq.getDatefin(),revReq.getRetenue()));
-			FileInputStream fileInputStream = new FileInputStream(file);
-			return IOUtils.toByteArray(fileInputStream);
+	@RequestMapping(path = "/HistRevenu", method = RequestMethod.GET)
+	public List<Object[]> statRevenu() {
+		return DetailRepository.statRevenu();
+	}
 
+	/*--------------------- web service Revenu ById------------------*/
+	@RequestMapping(path = "/HistRevenu/by-id/{id}", method = RequestMethod.GET)
+	public List<Object[]> HistRevenu(@PathVariable("id") Integer id) {
+		return DetailRepository.HistRevenu(id);
+	}
+	/*--------------*Set and get service paiementParMois*--------------*/
 
-	}*/
+	@RequestMapping(path = "/paiementParMois", method = RequestMethod.POST, consumes = "application/json")
+	public void paiementParMois(@Valid @RequestBody details detailsPaiement) {
+		DetailRepository.paiementParMois(detailsPaiement.getNamea(), detailsPaiement.getDate1(),
+				detailsPaiement.getDate2());
+	}
 
 
 

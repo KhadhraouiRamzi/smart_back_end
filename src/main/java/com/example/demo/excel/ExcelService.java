@@ -126,7 +126,7 @@ public class ExcelService {
                         case "Ines Feat Kafon" : 
                         	nom_artiste ="In-s Feat Kafon";
                             break;    
-                            
+
                         default: nom_artiste = currentCell.getStringCellValue();
                         break;
                         }

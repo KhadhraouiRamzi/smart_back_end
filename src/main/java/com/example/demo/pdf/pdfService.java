@@ -30,8 +30,6 @@ public class pdfService {
     @Autowired
     detailRepository DetailRepository;
 
-    @Autowired
-    Desktop desktop;
 
 
     public ByteArrayInputStream toPDF(Integer idUSer, Date datedebut, Date datefin, Double retenue) throws pdfExceptionNoDataFound,IOException,DocumentException,pdfExceptionDateFormat,MalformedURLException {
