@@ -1,21 +1,28 @@
 package com.example.demo.webService;
 
 import com.example.demo.dao.detailRepository;
+import com.example.demo.dao.userRepository;
 import com.example.demo.entite.details;
 import com.example.demo.entite.devise;
+import com.example.demo.entite.user;
 import com.example.demo.excel.ExcelService;
 import com.example.demo.excel.ResponseMessage;
-import com.example.demo.payload.request.revenueRequest;
 import com.example.demo.pdf.pdfExceptionDateFormat;
 import com.example.demo.pdf.pdfExceptionNoDataFound;
 import com.example.demo.pdf.pdfService;
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +32,9 @@ public class detailRestService {
 
 	@Autowired
 	detailRepository DetailRepository;
+
+	@Autowired
+	userRepository UserRepository;
 
 	@Autowired
 	ExcelService excelService;
@@ -243,22 +253,51 @@ public class detailRestService {
 
 	/*--------------*web Service pour la generation des rapport finale*--------------*/
 
-	@RequestMapping(value = "/rapportOrange/by-userId-datedebut-datefin", method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<ResponseMessage> rapportArtisteOrange(@Valid @RequestBody revenueRequest revReq) throws pdfExceptionNoDataFound,pdfExceptionDateFormat {
+	@GetMapping(value = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}")
+	public ResponseEntity<InputStreamResource>  rapportArtisteOrange(@PathVariable Integer id, @PathVariable java.sql.Date datedebut, @PathVariable java.sql.Date datefin,@PathVariable Double retenue) throws pdfExceptionNoDataFound, pdfExceptionDateFormat, IOException, DocumentException {
 
 		String message = "done !";
 		try{
-			if(revReq.getDatedebut().after(revReq.getDatefin())){
-				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(new pdfExceptionDateFormat("verifiez les dates !!").getMessage()));
+			if(datedebut.after(datefin)){
+				return (ResponseEntity<InputStreamResource>) ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
 			}
-			PdfService.toPDF(revReq.getId(),revReq.getDatedebut(), revReq.getDatefin(),revReq.getRetenue());
+
+			Optional<user> u = UserRepository.findById(id);
+			System.out.println("user----->>>>>>>>>>>>>>"+u);
+			Date d = new Date();
+			SimpleDateFormat formater = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
+			//ByteArrayInputStream in = PdfService.toPDF(id,datedebut, datefin,retenue);
+			//System.out.println("aaaa"+ in);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setAccessControlAllowOrigin("*");
+			headers.add("Content-Disposition", "inline; filename=Rapport_" + u.get().getNom() + " " + u.get().getPrenom() + "-" + formater.format(d) + ".pdf");
+
+            return ResponseEntity
+					.ok()
+					.headers(headers)
+					.contentType(MediaType.APPLICATION_PDF)
+					.body(new InputStreamResource(PdfService.toPDF(id,datedebut, datefin,retenue)));
+
 		}catch (pdfExceptionNoDataFound p) {
-			return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(p.getMessage()));
+			return (ResponseEntity<InputStreamResource>) ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
 		}
 
 
-		return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+
 	}
+/*
+	@RequestMapping(value = "/get/pdf", method = RequestMethod.GET)
+	public Object getRapportArtisteOrange(@PathVariable("fileName") String fileName) throws pdfExceptionNoDataFound,pdfExceptionDateFormat, IOException, DocumentException {
+
+		String message = "done !";
+
+			File file = new File(PdfService.toPDF(revReq.getId(),revReq.getDatedebut(), revReq.getDatefin(),revReq.getRetenue()));
+			FileInputStream fileInputStream = new FileInputStream(file);
+			return IOUtils.toByteArray(fileInputStream);
+
+
+	}*/
 
 
 
