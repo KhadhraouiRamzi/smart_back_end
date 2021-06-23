@@ -2,8 +2,8 @@ package com.example.demo.excel;
 
 import com.example.demo.dao.detailRepository;
 import com.example.demo.entite.details;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,15 +12,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ExcelService {
 
-    public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    private static final Map<String, String> fileExtensionMap;
+
+    static {
+        fileExtensionMap = new HashMap<String, String>();
+        //excel type
+        fileExtensionMap.put("xls", "application/vnd.ms-excel");
+        fileExtensionMap.put("xlt", "application/vnd.ms-excel");
+        fileExtensionMap.put("xla", "application/vnd.ms-excel");
+        fileExtensionMap.put("xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        fileExtensionMap.put("xltx", "application/vnd.openxmlformats-officedocument.spreadsheetml.template");
+        fileExtensionMap.put("xlsm", "application/vnd.ms-excel.sheet.macroEnabled.12");
+        fileExtensionMap.put("xltm", "application/vnd.ms-excel.template.macroEnabled.12");
+        fileExtensionMap.put("xlam", "application/vnd.ms-excel.addin.macroEnabled.12");
+        fileExtensionMap.put("xlsb", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
+    }
 
     @Autowired
     detailRepository detailRepository;
@@ -36,7 +47,7 @@ public class ExcelService {
 
     public void uploadExcel(MultipartFile file) {
         try {
-            List<details> details = ExcelService.excelToDetails(file.getInputStream());
+            List<details> details = excelToDetails(file.getInputStream());
             detailRepository.saveAll(details);
         } catch (IOException e) {
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
@@ -45,7 +56,7 @@ public class ExcelService {
 
     public static boolean hasExcelFormat(MultipartFile file) {
 
-        if (!TYPE.equals(file.getContentType())) {
+        if (!fileExtensionMap.containsValue(file.getContentType())) {
             return false;
         }
 
@@ -54,9 +65,9 @@ public class ExcelService {
 
 
 
-    public static List<details> excelToDetails(InputStream is) {
+    public List<details> excelToDetails(InputStream is) {
         try {
-            Workbook workbook = new XSSFWorkbook(is);
+            Workbook workbook = WorkbookFactory.create(is);
 
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rows = sheet.iterator();
@@ -179,7 +190,7 @@ public class ExcelService {
 
             return tutorials;
 
-        } catch (IOException | ParseException e) {
+        } catch (IOException | ParseException | InvalidFormatException e) {
             throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
         }
     }
