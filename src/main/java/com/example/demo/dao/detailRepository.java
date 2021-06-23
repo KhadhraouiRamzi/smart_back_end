@@ -2,12 +2,15 @@ package com.example.demo.dao;
 
 import com.example.demo.entite.details;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
 
 @Repository
 public interface detailRepository extends JpaRepository<details, Integer> {
@@ -313,21 +316,27 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 	@Query(nativeQuery = true, value = "select  namea, date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, \n"
 			+ "round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste ,paye\n"
-			+ "	from details \n"
-			+ " group by   date1,date2,namea,paye  order by namea")
+			+ "	from details \n" + " group by   date1,date2,namea,paye  order by namea")
 	List<Object[]> statRevenu();
-	
 
 	@Query(nativeQuery = true, value = "select  namea, date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, \n"
 			+ "round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste ,paye\n"
-			+ "	from details \n"
-			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "	from details where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ " group by   date1,date2,namea,paye")
 	List<Object[]> HistRevenu(@Param("id") Integer id);
 
-	@Query(nativeQuery = true, value = "update details set paye = 1\n"
-			+ "where n_artistique =:namea and date1=:date1 and date2 =:date2")
-	List<Double> paiementParMois(@Param("namea") String nom, @Param("date1") Date date1,
-			@Param("date2") Date date2);
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "update details d set d.paye = 1\n"
+			+ "where d.namea=:namea and d.date1=:date1 and d.date2=:date2")
+	public void paiementParMois(@Param("namea") String namea, @Param("date1") Date date1, @Param("date2") Date date2);
+	
+	@Modifying
+	@Transactional
+	@Query(nativeQuery = true, value = "update details d set d.paye = 0\n"
+			+ "where d.namea=:namea and d.date1=:date1 and d.date2=:date2")
+	public void compenseParMois(@Param("namea") String namea, @Param("date1") Date date1, @Param("date2") Date date2);
+	
+	
 }
