@@ -7,10 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-import java.util.List;
-
 import javax.transaction.Transactional;
+import java.sql.Date;
+import java.util.List;
 
 @Repository
 public interface detailRepository extends JpaRepository<details, Integer> {
@@ -23,6 +22,8 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 	@Query(nativeQuery = true, value = "select *  from details    \r\n")
 	//
 	List<details> listArtiste();
+
+	List<details> getAllByDate1AndDate2(Date date1,Date date2);
 
 	/*----------------------------stat avec top 10---------------------------*/
 

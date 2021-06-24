@@ -45,7 +45,7 @@ public class ExcelService {
     private static double HTVA;
     private static double part_artiste;
 
-    public void uploadExcel(MultipartFile file) {
+    public void uploadExcel(MultipartFile file) throws ParseException, InvalidFormatException, DateException {
         try {
             List<details> details = excelToDetails(file.getInputStream());
             detailRepository.saveAll(details);
@@ -65,8 +65,8 @@ public class ExcelService {
 
 
 
-    public List<details> excelToDetails(InputStream is) {
-        try {
+    public List<details> excelToDetails(InputStream is) throws IOException, InvalidFormatException, ParseException, DateException {
+
             Workbook workbook = WorkbookFactory.create(is);
 
             Sheet sheet = workbook.getSheetAt(0);
@@ -90,109 +90,116 @@ public class ExcelService {
             java.sql.Date d2=  new java.sql.Date(date2.getTime());
             System.out.println(date2);
 
-            int rowNumber = 0;
-            while (rows.hasNext()) {
-                Row currentRow = rows.next();
+            List<details> detailss=detailRepository.getAllByDate1AndDate2(d1,d2);
+            SimpleDateFormat formaterrr = new SimpleDateFormat("MMM yyyy");
 
-                // skip header and the unused columns
-                if (rowNumber == 0 || rowNumber == 1 ||
-                    rowNumber == 2 || rowNumber == 3 ||
-                    rowNumber == 4 || rowNumber == 5) {
-                    rowNumber++;
-                    continue;
-                }
+            if(detailss.isEmpty()){
+                int rowNumber = 0;
+                while (rows.hasNext()) {
+                    Row currentRow = rows.next();
 
-                Iterator<Cell> cellsInRow = currentRow.iterator();
-
-                details details = new details();
-
-                int cellIdx = 0;
-                while (cellsInRow.hasNext()) {
-                    Cell currentCell = cellsInRow.next();
-
-                    details.setDate1(d1);
-                    details.setDate2(d2);
-
-                    switch (cellIdx) {
-                        case 0:
-                            details.setContent(currentCell.getStringCellValue());
-                            break;
-                        case 2:
-                            details.setCategory(currentCell.getStringCellValue());
-                            break;
-                        case 3:
-                            details.setPlateforme(currentCell.getStringCellValue());
-                            break;
-                        case 4:
-                        	String nom_artiste;
-                        switch (currentCell.getStringCellValue()) {
-                        case "Lotfi_Bouchnak" : 
-                        	nom_artiste ="Lotfi Bouchnak";
-                            break;
-                            
-                        case "Saber El Rebai" : 
-                        	nom_artiste ="Saber Rebai";
-                            break;
-                            
-                        case "Ines Feat Kafon" : 
-                        	nom_artiste ="In-s Feat Kafon";
-                            break;    
-
-                        default: nom_artiste = currentCell.getStringCellValue();
-                        break;
-                        }
-                            details.setNamea(nom_artiste);  
-                            System.out.println(nom_artiste);
-                            System.out.println(currentCell.getStringCellValue());
-                            break;
-                        case 5:
-                            details.setUniteprice((float) currentCell.getNumericCellValue());
-                            value = (float)currentCell.getNumericCellValue();
-                            break;
-                        case 6:
-                           double q=Double.parseDouble(currentCell.getStringCellValue());
-                            details.setQuantite((int) q);
-                            quantite= (int) q;
-                            details.setTTC((double) (quantite*value));
-                            TTC = (quantite*value);
-                            System.out.println(TTC);
-
-                            details.setPart_smart((double) (TTC*0.3));
-                            part_smart = (TTC*0.3);
-                            System.out.println(part_smart);
-
-                            details.setTax_telecom((double) (part_smart*0.059));
-                            tax_telecom =part_smart*0.059;
-                            System.out.println(tax_telecom);
-
-                            details.setPart_TTC((double) ( part_smart - tax_telecom ));
-                            part_TTC = part_smart - tax_telecom ;
-                            System.out.println("part_TTC "+part_TTC);
-
-                            details.setHTVA((double) (part_TTC / 1.19));
-                            HTVA = part_TTC / 1.19;
-                            System.out.println(HTVA);
-
-                            details.setPart_artiste((double) (HTVA / 2));
-                            System.out.println( (HTVA / 2));
-
-                            details.setGrossrevenu((double) 0);
-                            break;
-                        default:
-                            break;
+                    // skip header and the unused columns
+                    if (rowNumber == 0 || rowNumber == 1 ||
+                            rowNumber == 2 || rowNumber == 3 ||
+                            rowNumber == 4 || rowNumber == 5) {
+                        rowNumber++;
+                        continue;
                     }
-                    cellIdx++;
+
+                    Iterator<Cell> cellsInRow = currentRow.iterator();
+
+                    details details = new details();
+
+                    int cellIdx = 0;
+                    while (cellsInRow.hasNext()) {
+                        Cell currentCell = cellsInRow.next();
+
+                        details.setDate1(d1);
+                        details.setDate2(d2);
+
+                        switch (cellIdx) {
+                            case 0:
+                                details.setContent(currentCell.getStringCellValue());
+                                break;
+                            case 2:
+                                details.setCategory(currentCell.getStringCellValue());
+                                break;
+                            case 3:
+                                details.setPlateforme(currentCell.getStringCellValue());
+                                break;
+                            case 4:
+                                String nom_artiste;
+                                switch (currentCell.getStringCellValue()) {
+                                    case "Lotfi_Bouchnak" :
+                                        nom_artiste ="Lotfi Bouchnak";
+                                        break;
+
+                                    case "Saber El Rebai" :
+                                        nom_artiste ="Saber Rebai";
+                                        break;
+
+                                    case "Ines Feat Kafon" :
+                                        nom_artiste ="In-s Feat Kafon";
+                                        break;
+
+                                    default: nom_artiste = currentCell.getStringCellValue();
+                                        break;
+                                }
+                                details.setNamea(nom_artiste);
+                                System.out.println(nom_artiste);
+                                System.out.println(currentCell.getStringCellValue());
+                                break;
+                            case 5:
+                                details.setUniteprice((float) currentCell.getNumericCellValue());
+                                value = (float)currentCell.getNumericCellValue();
+                                break;
+                            case 6:
+                                double q=Double.parseDouble(currentCell.getStringCellValue());
+                                details.setQuantite((int) q);
+                                quantite= (int) q;
+                                details.setTTC((double) (quantite*value));
+                                TTC = (quantite*value);
+                                System.out.println(TTC);
+
+                                details.setPart_smart((double) (TTC*0.3));
+                                part_smart = (TTC*0.3);
+                                System.out.println(part_smart);
+
+                                details.setTax_telecom((double) (part_smart*0.059));
+                                tax_telecom =part_smart*0.059;
+                                System.out.println(tax_telecom);
+
+                                details.setPart_TTC((double) ( part_smart - tax_telecom ));
+                                part_TTC = part_smart - tax_telecom ;
+                                System.out.println("part_TTC "+part_TTC);
+
+                                details.setHTVA((double) (part_TTC / 1.19));
+                                HTVA = part_TTC / 1.19;
+                                System.out.println(HTVA);
+
+                                details.setPart_artiste((double) (HTVA / 2));
+                                System.out.println( (HTVA / 2));
+
+                                details.setGrossrevenu((double) 0);
+                                break;
+                            default:
+                                break;
+                        }
+                        cellIdx++;
+                    }
+                    tutorials.add(details);
                 }
-                tutorials.add(details);
+
+                workbook.close();
+
+                return tutorials;
             }
 
-            workbook.close();
+            else throw new DateException("Revenue de mois "+formaterrr.format(date1)+" existe deja !! verifiez vos date !");
 
-            return tutorials;
 
-        } catch (IOException | ParseException | InvalidFormatException e) {
-            throw new RuntimeException("fail to parse Excel file: " + e.getMessage());
-        }
+
+
     }
 
 }

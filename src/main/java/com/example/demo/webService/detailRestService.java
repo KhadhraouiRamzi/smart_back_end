@@ -5,12 +5,14 @@ import com.example.demo.dao.userRepository;
 import com.example.demo.entite.details;
 import com.example.demo.entite.devise;
 import com.example.demo.entite.user;
+import com.example.demo.excel.DateException;
 import com.example.demo.excel.ExcelService;
 import com.example.demo.excel.ResponseMessage;
 import com.example.demo.pdf.pdfExceptionDateFormat;
 import com.example.demo.pdf.pdfExceptionNoDataFound;
 import com.example.demo.pdf.pdfService;
 import com.itextpdf.text.DocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -236,30 +239,30 @@ public class detailRestService {
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
 		String message = "";
 
-		if (excelService.hasExcelFormat(file)) {
+		if (ExcelService.hasExcelFormat(file)) {
 			try {
 				excelService.uploadExcel(file);
 
-				message = "Uploaded the file successfully: " + file.getOriginalFilename();
+				message = "l'importation et terminé avec succes: " + file.getOriginalFilename();
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-			} catch (Exception e) {
-				message = "Could not upload the file: " + file.getOriginalFilename() + ": " + e;
+			} catch (DateException | ParseException | InvalidFormatException e) {
+				message = "echec d'importation: " + e.getMessage();
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 			}
 		}
-		message = "Please upload an excel file!";
+		message = "echec d'importation: le fichier n'est pas de type excel !";
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
 	}
 
 	/*--------------*web Service pour la generation des rapport finale*--------------*/
 
 	@GetMapping(value = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}")
-	public ResponseEntity<InputStreamResource>  rapportArtisteOrange(@PathVariable Integer id, @PathVariable java.sql.Date datedebut, @PathVariable java.sql.Date datefin,@PathVariable Double retenue) throws pdfExceptionNoDataFound, pdfExceptionDateFormat, IOException, DocumentException {
+	public ResponseEntity  rapportArtisteOrange(@PathVariable Integer id, @PathVariable java.sql.Date datedebut, @PathVariable java.sql.Date datefin,@PathVariable Double retenue) throws pdfExceptionNoDataFound, pdfExceptionDateFormat, IOException, DocumentException {
 
 		String message = "done !";
 		try{
 			if(datedebut.after(datefin)){
-				return (ResponseEntity<InputStreamResource>) ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
+				return  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("verifier les dates !!"));
 			}
 
 			Optional<user> u = UserRepository.findById(id);
@@ -280,7 +283,7 @@ public class detailRestService {
 					.body(new InputStreamResource(PdfService.toPDF(id,datedebut, datefin,retenue)));
 
 		}catch (pdfExceptionNoDataFound p) {
-			return (ResponseEntity<InputStreamResource>) ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
+			return  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(p.getMessage()));
 		}
 
 

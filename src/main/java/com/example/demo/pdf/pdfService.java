@@ -32,7 +32,7 @@ public class pdfService {
 
 
 
-    public ByteArrayInputStream toPDF(Integer idUSer, Date datedebut, Date datefin, Double retenue) throws pdfExceptionNoDataFound,IOException,DocumentException,pdfExceptionDateFormat,MalformedURLException {
+    public ByteArrayInputStream toPDF(Integer idUSer, java.sql.Date datedebut, java.sql.Date datefin, Double retenue) throws pdfExceptionNoDataFound,IOException,DocumentException,pdfExceptionDateFormat,MalformedURLException {
 
         /*String URL_file = null;*/
 
