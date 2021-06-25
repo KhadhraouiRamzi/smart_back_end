@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -256,38 +257,25 @@ public class detailRestService {
 
 	/*--------------*web Service pour la generation des rapport finale*--------------*/
 
-	@GetMapping(value = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}")
-	public ResponseEntity  rapportArtisteOrange(@PathVariable Integer id, @PathVariable java.sql.Date datedebut, @PathVariable java.sql.Date datefin,@PathVariable Double retenue) throws pdfExceptionNoDataFound, pdfExceptionDateFormat, IOException, DocumentException {
+	@GetMapping(value = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}",produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource>  rapportArtisteOrange(@PathVariable Integer id, @PathVariable java.sql.Date datedebut, @PathVariable java.sql.Date datefin, @PathVariable Double retenue) throws pdfExceptionNoDataFound, pdfExceptionDateFormat, IOException, DocumentException {
 
-		String message = "done !";
-		try{
-			if(datedebut.after(datefin)){
-				return  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("verifier les dates !!"));
-			}
 
 			Optional<user> u = UserRepository.findById(id);
 			System.out.println("user----->>>>>>>>>>>>>>"+u);
 			Date d = new Date();
 			SimpleDateFormat formater = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
-			//ByteArrayInputStream in = PdfService.toPDF(id,datedebut, datefin,retenue);
+			ByteArrayInputStream in = PdfService.toPDF(id,datedebut, datefin,retenue);
 			//System.out.println("aaaa"+ in);
 			HttpHeaders headers = new HttpHeaders();
-			headers.setAccessControlAllowOrigin("*");
-			headers.add("Content-Disposition", "inline; filename=Rapport_" + u.get().getNom() + " " + u.get().getPrenom() + "-" + formater.format(d) + ".pdf");
+			/*headers.setAccessControlAllowOrigin("*");*/
+			headers.add("Content-Disposition", "inline; filename=Rapport_" + u.get().getNom() + "_" + u.get().getPrenom() + "-" + formater.format(d) + ".pdf");
 
             return ResponseEntity
 					.ok()
 					.headers(headers)
-					.contentType(MediaType.APPLICATION_PDF)
-					.body(new InputStreamResource(PdfService.toPDF(id,datedebut, datefin,retenue)));
-
-		}catch (pdfExceptionNoDataFound p) {
-			return  ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(p.getMessage()));
-		}
-
-
-
+					.body(new InputStreamResource(in));
 	}
 
 	/*--------------------- web service Revenu------------------*/
