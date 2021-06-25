@@ -58,7 +58,7 @@ public class detailRestService {
 
 	}
 
-	@RequestMapping(path = "/deleteDetails/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/deleteDetail/{id}", method = RequestMethod.DELETE)
 	public void deleteByExcludedId(@PathVariable("id") Integer id) {
 		DetailRepository.deleteById(id);
 	}
@@ -73,18 +73,18 @@ public class detailRestService {
 		return DetailRepository.findById(id);
 	}
 
-	@RequestMapping(path = "/details/by-id/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/detail/by-id/{id}", method = RequestMethod.GET)
 	public Optional<details> rechercheParId(@PathVariable("id") Integer id) {
 		return DetailRepository.findById(id);
 	}
 
-	@RequestMapping(path = "/new-details", method = RequestMethod.POST)
+	@RequestMapping(path = "/new-detail", method = RequestMethod.POST)
 	public Integer addCategorie(@RequestBody details p) {
 		DetailRepository.save(p);
 		return p.getId();
 	}
 
-	@RequestMapping(path = "/updateDetails", method = RequestMethod.PUT)
+	@RequestMapping(path = "/updateDetail", method = RequestMethod.PUT)
 	public void update(@RequestBody details u) {
 		DetailRepository.save(u);
 	}

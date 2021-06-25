@@ -310,7 +310,7 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ "select round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom,\n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
 			+ "from details dd\n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
-			+ "and dd.date1 between :datedebut and :datefin\n" + "and dd.date2 between :datedebut and :datefin) XX")
+			+ "and dd.date1 between :datedebut and :datefin and dd.date2 between :datedebut and :datefin) XX")
 	List<Double> rapportStatTotalUsersById(@Param("id") Integer id, @Param("datedebut") Date datedebut,
 			@Param("datefin") Date datefin);
 
@@ -330,7 +330,7 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 	@Modifying
 	@Transactional
 	@Query(nativeQuery = true, value = "update details d set d.paye = 1\n"
-			+ "where d.namea=:namea and d.date1=:date1 and d.date2=:date2")
+			+ "where d.namea like concat(:namea,'%') and d.date1 between :date1 and :date2 and d.date2 between :date1 and :date2")
 	public void paiementParMois(@Param("namea") String namea, @Param("date1") Date date1, @Param("date2") Date date2);
 	
 	@Modifying
