@@ -297,12 +297,19 @@ public class detailRestService {
 				detailsPaiement.getDate2());
 	}
 */
+	@RequestMapping(path = "/paiementParMoisHist/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
+	public void paiementParMoisHist(@PathVariable String namea, @PathVariable java.sql.Date date1,@PathVariable java.sql.Date date2) {
+		System.out.println(namea+' '+date1+' '+date2);
+		DetailRepository.paiementParMoisHist(namea,date1,date2);
+	}
+
+
 	@RequestMapping(path = "/paiementParMois/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
 	public void paiementParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,@PathVariable java.sql.Date date2) {
 		System.out.println(namea+' '+date1+' '+date2);
 		DetailRepository.paiementParMois(namea,date1,date2);
 	}
-
+	
 	@RequestMapping(path = "/compenseParMois/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
 	public void compenseParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,@PathVariable java.sql.Date date2) {
 		System.out.println(namea+' '+date1+' '+date2);
