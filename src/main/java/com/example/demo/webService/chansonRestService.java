@@ -17,7 +17,7 @@ public class chansonRestService {
 	chansonRepository ChansonRepository;
 
 	@RequestMapping(path = "/chansons", method = RequestMethod.GET)
-	public List<chanson> listeAlbum() {
+	public List<chanson> listeChanson() {
 		return ChansonRepository.GetChnason();
 	}
 
