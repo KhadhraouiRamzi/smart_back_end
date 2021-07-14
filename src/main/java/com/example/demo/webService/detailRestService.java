@@ -235,10 +235,31 @@ public class detailRestService {
 		return DetailRepository.statTotalUsersById(id);
 	}
 
-	/*--------------*web Service pour l'upload des details*--------------*/
+	/*--------------*web Service pour l'upload des details Orange*--------------*/
 
 	@PostMapping("/uploadExcel")
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+		String message = "";
+
+		if (ExcelService.hasExcelFormat(file)) {
+			try {
+				excelService.uploadExcel(file);
+
+				message = "l'importation et terminé avec succes: " + file.getOriginalFilename();
+				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+			} catch (DateException | ParseException | InvalidFormatException | nullException e) {
+				message = "echec d'importation: " + e.getMessage();
+				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+			}
+		}
+		message = "echec d'importation: le fichier n'est pas de type excel !";
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+	}
+
+	/*--------------*web Service pour l'upload des details Beleive*--------------*/
+
+	@PostMapping("/uploadExcelBelieve")
+	public ResponseEntity<ResponseMessage> uploadFileBelieve(@RequestParam("file") MultipartFile file) {
 		String message = "";
 
 		if (ExcelService.hasExcelFormat(file)) {
@@ -290,14 +311,8 @@ public class detailRestService {
 	public List<Object[]> HistRevenu(@PathVariable("id") Integer id) {
 		return DetailRepository.HistRevenu(id);
 	}
-	/*--------------*Set and get service paiementParMois*--------------
-	 *
-	@RequestMapping(path = "/paiementParMois", method = RequestMethod.POST, consumes = "application/json")
-	public void paiementParMois(@Valid @RequestBody details detailsPaiement) {
-		DetailRepository.paiementParMois(detailsPaiement.getNamea(), detailsPaiement.getDate1(),
-				detailsPaiement.getDate2());
-	}
-*/
+	/*--------------*Set and get service paiementParMois*--------------*/
+
 	@RequestMapping(path = "/paiementParMoisHist/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
 	public void paiementParMoisHist(@PathVariable String namea, @PathVariable java.sql.Date date1,@PathVariable java.sql.Date date2) {
 		System.out.println(namea+' '+date1+' '+date2);

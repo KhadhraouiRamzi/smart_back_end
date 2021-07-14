@@ -40,6 +40,9 @@ public class details {
 	private  Double HTVA  ;
 	private  Double part_artiste  ;
 	private Boolean paye = false;
+	private String pays;
+	private String type_vente;
+	private String type_stream;
 
 	/*@ManyToMany
     private Set<chanson> chanson = new HashSet<>();
@@ -236,21 +239,31 @@ public class details {
 	public void setNomC(String nomC) {
 		this.nomC = nomC;
 	}
-	/*public chanson getChanson() {
-		return chanson;
-	}
-	public void setChanson(chanson chanson) {
-		this.chanson = chanson;
-	}	
 
-	public Integer getIdChanson() {
-		return this.chanson != null ? this.chanson.getId() : this.id;
+	public String getPays() {
+		return pays;
 	}
-	public void setIdChanson(Integer idChanson) {
-		this.idChanson = idChanson;
-	} 
-*/
-	
+
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+
+	public String getType_vente() {
+		return type_vente;
+	}
+
+	public void setType_vente(String type_vente) {
+		this.type_vente = type_vente;
+	}
+
+	public String getType_stream() {
+		return type_stream;
+	}
+
+	public void setType_stream(String type_stream) {
+		this.type_stream = type_stream;
+	}
+
 	public List<details> getChanson() {
 		return chanson;
 	}
