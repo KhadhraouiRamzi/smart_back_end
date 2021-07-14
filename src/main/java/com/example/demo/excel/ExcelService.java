@@ -45,7 +45,7 @@ public class ExcelService {
     private static double HTVA;
     private static double part_artiste;
 
-    public void uploadExcel(MultipartFile file) throws ParseException, InvalidFormatException, DateException {
+    public void uploadExcel(MultipartFile file) throws ParseException, InvalidFormatException, DateException, nullException {
         try {
             List<details> details = excelToDetails(file.getInputStream());
             detailRepository.saveAll(details);
@@ -65,7 +65,7 @@ public class ExcelService {
 
 
 
-    public List<details> excelToDetails(InputStream is) throws IOException, InvalidFormatException, ParseException, DateException {
+    public List<details> excelToDetails(InputStream is) throws IOException, InvalidFormatException, ParseException, DateException, nullException {
 
             Workbook workbook = WorkbookFactory.create(is);
 
@@ -119,14 +119,26 @@ public class ExcelService {
 
                         switch (cellIdx) {
                             case 0:
-                                details.setContent(currentCell.getStringCellValue());
-                                break;
+                                if(!currentCell.getStringCellValue().isEmpty()){
+                                    details.setContent(currentCell.getStringCellValue());
+                                    break;
+                                }
+                                else throw new nullException("le nom de chanson est doit etre non vide verifiez " +
+                                        "la ligne " + (currentRow.getRowNum()+1));
                             case 2:
-                                details.setCategory(currentCell.getStringCellValue());
-                                break;
+                                if(!currentCell.getStringCellValue().isEmpty()){
+                                    details.setCategory(currentCell.getStringCellValue());
+                                    break;
+                                }
+                                else throw new nullException("le nom de categorie est doit etre non vide verifiez " +
+                                        "la ligne " + (currentRow.getRowNum()+1));
                             case 3:
-                                details.setPlateforme(currentCell.getStringCellValue());
-                                break;
+                                if(!currentCell.getStringCellValue().isEmpty()){
+                                    details.setPlateforme(currentCell.getStringCellValue());
+                                    break;
+                                }
+                                else throw new nullException("le nom du plateforme est doit etre non vide verifiez " +
+                                        "la ligne " + (currentRow.getRowNum()+1));
                             case 4:
                                 String nom_artiste;
                                 switch (currentCell.getStringCellValue()) {
@@ -145,43 +157,58 @@ public class ExcelService {
                                     default: nom_artiste = currentCell.getStringCellValue();
                                         break;
                                 }
-                                details.setNamea(nom_artiste);
-                                System.out.println(nom_artiste);
-                                System.out.println(currentCell.getStringCellValue());
-                                break;
+                                if(!nom_artiste.isEmpty()){
+                                    details.setNamea(nom_artiste);
+                                    System.out.println(nom_artiste);
+                                    System.out.println(currentCell.getStringCellValue());
+                                    break;
+                                }
+
+                                else throw new nullException("le nom artistique est doit etre non vide verifiez " +
+                                        "la ligne " + (currentRow.getRowNum()+1));
+
                             case 5:
-                                details.setUniteprice((float) currentCell.getNumericCellValue());
-                                value = (float)currentCell.getNumericCellValue();
-                                break;
+                                if(!(currentCell.getNumericCellValue() == 0)){
+                                    details.setUniteprice((float) currentCell.getNumericCellValue());
+                                    value = (float)currentCell.getNumericCellValue();
+                                    break;
+                                }
+                                else throw new nullException("le prix unitaire est doit etre non vide verifiez " +
+                                        "la ligne " + (currentRow.getRowNum()+1));
                             case 6:
+                                if(!(currentCell.getStringCellValue().isEmpty())){
                                 double q=Double.parseDouble(currentCell.getStringCellValue());
-                                details.setQuantite((int) q);
-                                quantite= (int) q;
-                                details.setTTC((double) (quantite*value));
-                                TTC = (quantite*value);
-                                System.out.println(TTC);
 
-                                details.setPart_smart((double) (TTC*0.3));
-                                part_smart = (TTC*0.3);
-                                System.out.println(part_smart);
+                                    details.setQuantite((int) q);
+                                    quantite= (int) q;
+                                    details.setTTC((double) (quantite*value));
+                                    TTC = (quantite*value);
+                                    System.out.println(TTC);
 
-                                details.setTax_telecom((double) (part_smart*0.059));
-                                tax_telecom =part_smart*0.059;
-                                System.out.println(tax_telecom);
+                                    details.setPart_smart((double) (TTC*0.3));
+                                    part_smart = (TTC*0.3);
+                                    System.out.println(part_smart);
 
-                                details.setPart_TTC((double) ( part_smart - tax_telecom ));
-                                part_TTC = part_smart - tax_telecom ;
-                                System.out.println("part_TTC "+part_TTC);
+                                    details.setTax_telecom((double) (part_smart*0.059));
+                                    tax_telecom =part_smart*0.059;
+                                    System.out.println(tax_telecom);
 
-                                details.setHTVA((double) (part_TTC / 1.19));
-                                HTVA = part_TTC / 1.19;
-                                System.out.println(HTVA);
+                                    details.setPart_TTC((double) ( part_smart - tax_telecom ));
+                                    part_TTC = part_smart - tax_telecom ;
+                                    System.out.println("part_TTC "+part_TTC);
 
-                                details.setPart_artiste((double) (HTVA / 2));
-                                System.out.println( (HTVA / 2));
+                                    details.setHTVA((double) (part_TTC / 1.19));
+                                    HTVA = part_TTC / 1.19;
+                                    System.out.println(HTVA);
 
-                                details.setGrossrevenu((double) 0);
-                                break;
+                                    details.setPart_artiste((double) (HTVA / 2));
+                                    System.out.println( (HTVA / 2));
+
+                                    details.setGrossrevenu((double) 0);
+                                    break;
+                                }
+                                else throw new nullException("le nombre d'ecoute est doit etre non vide verifiez " +
+                                        "la ligne " + (currentRow.getRowNum()+1));
                             default:
                                 break;
                         }
