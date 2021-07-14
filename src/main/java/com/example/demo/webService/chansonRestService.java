@@ -17,7 +17,7 @@ public class chansonRestService {
 	chansonRepository ChansonRepository;
 
 	@RequestMapping(path = "/chansons", method = RequestMethod.GET)
-	public List<chanson> listeAlbum() {
+	public List<chanson> listeChanson() {
 		return ChansonRepository.GetChnason();
 	}
 
@@ -27,8 +27,8 @@ public class chansonRestService {
 	}
 
 	@RequestMapping(path = "/chanson", method = RequestMethod.GET)
-	public List<chanson> listerClient() {
-		return ChansonRepository.GetChnason();
+	public List<chanson> listerChanson() {
+		return ChansonRepository.findAll(); 
 	}
 
 	@RequestMapping(path = "/chansons/by-userId/{idUser}", method = RequestMethod.GET)
@@ -38,7 +38,7 @@ public class chansonRestService {
 		return chansons;
 	}
 
-	@RequestMapping(path = "/chanson/by-id/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/chansons/by-id/{id}", method = RequestMethod.GET)
 	public Optional<chanson> rechercheParId(@PathVariable("id") Integer id) {
 		return ChansonRepository.findById(id);
 	}

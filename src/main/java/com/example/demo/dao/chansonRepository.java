@@ -27,7 +27,7 @@ import java.util.List;
 	    
 
 	   
-		@Query(nativeQuery = true, value ="select *  from chanson    \r\n"  )//
+		@Query(nativeQuery = true, value ="select *  from chanson"  )//
 		List<chanson> listChanson();
 		
 

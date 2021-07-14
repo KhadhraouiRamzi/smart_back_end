@@ -14,6 +14,7 @@ public class chanson {
 	private Date cdate;
 	private String nom;
 	private String genre;
+	private String code;
 	private Date datec;
 	private String type;
 	private String rbt_src;
@@ -158,11 +159,19 @@ public class chanson {
 	public void setOperateurs(Set<operateur> operateurs) {
 		this.operateurs = operateurs;
 	}
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	public chanson() {
 		super();
 	}
-
+  
 	public chanson(Integer id, Date cdate, String nom, String genre, Date datec, String type, String rbt_src, String featuring, Date udate, com.example.demo.entite.album album, com.example.demo.entite.user user, Set<plateforme> platformes, Set<operateur> operateurs) {
 		this.id = id;
 		this.cdate = cdate;
