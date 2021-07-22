@@ -1,6 +1,6 @@
 package com.example.demo.webService;
 
-import com.example.demo.dao.detailRepository;
+import com.example.demo.dao.believeRepository;
 import com.example.demo.dao.userRepository;
 import com.example.demo.entite.details;
 import com.example.demo.entite.devise;
@@ -32,10 +32,10 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class detailRestService {
+public class believeRestService {
 
 	@Autowired
-	detailRepository DetailRepository;
+	believeRepository BelieveRepository;
 
 	@Autowired
 	userRepository UserRepository;
@@ -46,197 +46,239 @@ public class detailRestService {
 	@Autowired
 	pdfService PdfService;
 
-	@RequestMapping(path = "/details", method = RequestMethod.GET)
+	@RequestMapping(path = "/detailsBelieve", method = RequestMethod.GET)
 	public List<devise> listeDevise() {
-		return DetailRepository.listDetails();
+		return BelieveRepository.listDetails();
 	}
 
-	@RequestMapping(path = "/newdetails", method = RequestMethod.POST)
+	@RequestMapping(path = "/newdetailsBelieve", method = RequestMethod.POST)
 	public Integer adddetails(@RequestBody details p) {
-		DetailRepository.save(p);
+		BelieveRepository.save(p);
 		return p.getId();
 
 	}
 
-	@RequestMapping(path = "/deleteDetail/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "/deleteDetailBelieve/{id}", method = RequestMethod.DELETE)
 	public void deleteByExcludedId(@PathVariable("id") Integer id) {
-		DetailRepository.deleteById(id);
+		BelieveRepository.deleteById(id);
 	}
 
-	@RequestMapping(path = "/listArtiste", method = RequestMethod.GET)
+	@RequestMapping(path = "/listArtisteBelieve", method = RequestMethod.GET)
 	public List<details> lisArtistet() {
-		return DetailRepository.listArtiste();
+		return BelieveRepository.listArtiste();
 	}
 
-	@RequestMapping(path = "/details/by-nom/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/detailsBelieve/by-nom/{id}", method = RequestMethod.GET)
 	public Optional<details> ReParNom(@PathVariable("id") Integer id) {
-		return DetailRepository.findById(id);
+		return BelieveRepository.findById(id);
 	}
 
-	@RequestMapping(path = "/detail/by-id/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/detailBelieve/by-id/{id}", method = RequestMethod.GET)
 	public Optional<details> rechercheParId(@PathVariable("id") Integer id) {
-		return DetailRepository.findById(id);
+		return BelieveRepository.findById(id);
 	}
 
-	@RequestMapping(path = "/new-detail", method = RequestMethod.POST)
+	@RequestMapping(path = "/new-detailBelieve", method = RequestMethod.POST)
 	public Integer addCategorie(@RequestBody details p) {
-		DetailRepository.save(p);
+		BelieveRepository.save(p);
 		return p.getId();
 	}
 
-	@RequestMapping(path = "/updateDetail", method = RequestMethod.PUT)
+	@RequestMapping(path = "/updateDetailBelieve", method = RequestMethod.PUT)
 	public void update(@RequestBody details u) {
-		DetailRepository.save(u);
+		BelieveRepository.save(u);
 	}
 
 	/*----------------------------stat avec top 10---------------------------*/
 
-	@RequestMapping(path = "/listDetail", method = RequestMethod.GET)
+	@RequestMapping(path = "/listDetailBelieve", method = RequestMethod.GET)
 	public List<Object[]> listDetail() {
-		return DetailRepository.listDetail();
+		return BelieveRepository.listDetail();
 	}
 
-	@RequestMapping(path = "/topChanson", method = RequestMethod.GET)
+	@RequestMapping(path = "/topChansonBelieve", method = RequestMethod.GET)
 	public List<Object[]> listChanson() {
-		return DetailRepository.topChanson();
+		return BelieveRepository.topChanson();
 	}
 
-	@RequestMapping(path = "/topArtiste", method = RequestMethod.GET)
+	@RequestMapping(path = "/topArtisteBelieve", method = RequestMethod.GET)
 	public List<Object[]> topArtiste() {
-		return DetailRepository.topArtiste();
+		return BelieveRepository.topArtiste();
 	}
 
-	@RequestMapping(path = "/topCategory", method = RequestMethod.GET)
+	@RequestMapping(path = "/topCategoryBelieve", method = RequestMethod.GET)
 	public List<Object[]> topCategory() {
-		return DetailRepository.topCategory();
+		return BelieveRepository.topCategory();
 	}
 
-	@RequestMapping(path = "/topCountC", method = RequestMethod.GET)
+	@RequestMapping(path = "/topCountCBelieve", method = RequestMethod.GET)
 	public List<Object[]> topCountC() {
-		return DetailRepository.topCountC();
+		return BelieveRepository.topCountC();
 	}
 
-	@RequestMapping(path = "/topCountA", method = RequestMethod.GET)
+	@RequestMapping(path = "/topCountABelieve", method = RequestMethod.GET)
 	public List<Object[]> topCountA() {
-		return DetailRepository.topCountA();
+		return BelieveRepository.topCountA();
 	}
 
-	@RequestMapping(path = "/topDate", method = RequestMethod.GET)
+	@RequestMapping(path = "/topDateBelieve", method = RequestMethod.GET)
 	public List<Object[]> topDate() {
-		return DetailRepository.topDate();
+		return BelieveRepository.topDate();
 	}
 
+	@RequestMapping(path = "/topPaysBelieve", method = RequestMethod.GET)
+	public List<Object[]> topPaysBelieve() {
+		return BelieveRepository.topPaysBelieve();
+	}
+	
+	@RequestMapping(path = "/topAbonnementBelieve", method = RequestMethod.GET)
+	public List<Object[]> topAbonnementBelieve() {
+		return BelieveRepository.topAbonnementBelieve();
+	}
 	/*-----------tout les stat sans top 10-------------*/
 
-	@RequestMapping(path = "/statArtiste", method = RequestMethod.GET)
+	@RequestMapping(path = "/statArtisteBelieve", method = RequestMethod.GET)
 	public List<Object[]> statArtiste() {
-		return DetailRepository.statArtiste();
+		return BelieveRepository.statArtiste();
 	}
 
-	@RequestMapping(path = "/statChanson", method = RequestMethod.GET)
+	@RequestMapping(path = "/statChansonBelieve", method = RequestMethod.GET)
 	public List<Object[]> statChanson() {
-		return DetailRepository.statChanson();
+		return BelieveRepository.statChanson();
 	}
 
-	@RequestMapping(path = "/statcategory", method = RequestMethod.GET)
+	@RequestMapping(path = "/statcategoryBelieve", method = RequestMethod.GET)
 	public List<Object[]> statcategory() {
-		return DetailRepository.statcategory();
+		return BelieveRepository.statcategory();
 	}
 
-	@RequestMapping(path = "/statCountC", method = RequestMethod.GET)
+	@RequestMapping(path = "/statCountCBelieve", method = RequestMethod.GET)
 	public List<Object[]> statCountC() {
-		return DetailRepository.statCountC();
+		return BelieveRepository.statCountC();
 	}
 
-	@RequestMapping(path = "/statCountA", method = RequestMethod.GET)
+	@RequestMapping(path = "/statCountABelieve", method = RequestMethod.GET)
 	public List<Object[]> statCountA() {
-		return DetailRepository.statCountA();
+		return BelieveRepository.statCountA();
 	}
 
-	@RequestMapping(path = "/statDate", method = RequestMethod.GET)
+	@RequestMapping(path = "/statDateBelieve", method = RequestMethod.GET)
 	public List<Object[]> statDate() {
-		return DetailRepository.statDate();
+		return BelieveRepository.statDate();
 	}
 
-	@RequestMapping(path = "/statPlateforme", method = RequestMethod.GET)
+	@RequestMapping(path = "/statPlateformeBelieve", method = RequestMethod.GET)
 	public List<Object[]> statPlateforme() {
-		return DetailRepository.statPlateforme();
+		return BelieveRepository.statPlateforme();
 	}
 
-	@RequestMapping(path = "/statPlateformeC", method = RequestMethod.GET)
+	@RequestMapping(path = "/statPlateformeCBelieve", method = RequestMethod.GET)
 	public List<Object[]> statPlateformeC() {
-		return DetailRepository.statPlateformeC();
+		return BelieveRepository.statPlateformeC();
 	}
 
+	@RequestMapping(path = "/statPaysBelieve", method = RequestMethod.GET)
+	public List<Object[]> statPaysBelieve() {
+		return BelieveRepository.statPaysBelieve();
+	}
+	
+	@RequestMapping(path = "/statAbonnementBelieve", method = RequestMethod.GET)
+	public List<Object[]> statAbonnementBelieve() {
+		return BelieveRepository.statAbonnementBelieve();
+	}
+	
 	/*-----------tout les stat sans top 10 By Users Connected-------------*/
 
-	@RequestMapping(path = "/statArtiste/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/statArtisteBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statArtisteById(@PathVariable("id") Integer id) {
-		return DetailRepository.statArtisteById(id);
+		return BelieveRepository.statArtisteById(id);
 	}
 
-	@RequestMapping(path = "/statChanson/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/statChansonBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statChansonById(@PathVariable("id") Integer id) {
-		return DetailRepository.statChansonById(id);
+		return BelieveRepository.statChansonById(id);
 	}
 
-	@RequestMapping(path = "/statCategorie/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/statCategorieBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statCategorieById(@PathVariable("id") Integer id) {
-		return DetailRepository.statCategoryById(id);
+		return BelieveRepository.statCategoryById(id);
 	}
 
-	@RequestMapping(path = "/statPlateforme/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/statPlateformeBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statPlateformeById(@PathVariable("id") Integer id) {
-		return DetailRepository.statPlateformeById(id);
+		return BelieveRepository.statPlateformeById(id);
 	}
 
-	@RequestMapping(path = "/statDate/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/statDateBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statDateById(@PathVariable("id") Integer id) {
-		return DetailRepository.statDateById(id);
+		return BelieveRepository.statDateById(id);
+	}
+	
+
+	@RequestMapping(path = "/statPaysBelieve/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statPaysBelieve(@PathVariable("id") Integer id) {
+		return BelieveRepository.statPaysBelieve(id);
+	}
+
+	@RequestMapping(path = "/statAbonnementBelieve/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> statAbonnementBelieve(@PathVariable("id") Integer id) {
+		return BelieveRepository.statAbonnementBelieve(id);
 	}
 
 	/*-----------tout les stat sans top 10 By Users Connected-------------*/
 
-	@RequestMapping(path = "/topArtiste/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/topArtisteBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statArtisteUsersById(@PathVariable("id") Integer id) {
-		return DetailRepository.statArtisteUsersById(id);
+		return BelieveRepository.statArtisteUsersById(id);
 	}
 
-	@RequestMapping(path = "/topChanson/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/topChansonBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statChansonUsersById(@PathVariable("id") Integer id) {
-		return DetailRepository.statChansonUsersById(id);
+		return BelieveRepository.statChansonUsersById(id);
 	}
 
-	@RequestMapping(path = "/topCategory/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/topCategoryBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statcategoryUsersById(@PathVariable("id") Integer id) {
-		return DetailRepository.statcategoryUsersById(id);
+		return BelieveRepository.statcategoryUsersById(id);
 	}
 
-	@RequestMapping(path = "/topPlateforme/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/topPlateformeBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statPlateformeUsersById(@PathVariable("id") Integer id) {
-		return DetailRepository.statPlateformeUsersById(id);
+		return BelieveRepository.statPlateformeUsersById(id);
 	}
 
-	@RequestMapping(path = "/topDate/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/topDateBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statDateUsersById(@PathVariable("id") Integer id) {
-		return DetailRepository.statDateUsersById(id);
+		return BelieveRepository.statDateUsersById(id);
+	}
+
+
+	@RequestMapping(path = "/topPaysBelieve/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> topPaysBelieveById(@PathVariable("id") Integer id) {
+		return BelieveRepository.topPaysBelieveById(id);
+	}
+
+
+	@RequestMapping(path = "/topAbonnementBelieve/by-userId/{id}", method = RequestMethod.GET)
+	public List<Object[]> topAbonnementBelieveById(@PathVariable("id") Integer id) {
+		return BelieveRepository.topAbonnementBelieveById(id);
 	}
 
 	/*-----------web service pour les totaux des stats----------------*/
 
-	@RequestMapping(path = "/statTotal", method = RequestMethod.GET)
+	@RequestMapping(path = "/statTotalBelieve", method = RequestMethod.GET)
 	public List<Object[]> statTotal() {
-		return DetailRepository.statTotal();
+		return BelieveRepository.statTotal();
 	}
 
-	@RequestMapping(path = "/statTotal/by-userId/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/statTotalBelieve/by-userId/{id}", method = RequestMethod.GET)
 	public List<Object[]> statTotalUsersById(@PathVariable("id") Integer id) {
-		return DetailRepository.statTotalUsersById(id);
+		return BelieveRepository.statTotalUsersById(id);
 	}
 
 	/*--------------*web Service pour l'upload des details*--------------*/
 
-	@PostMapping("/uploadExcel")
+	@PostMapping("/uploadExcelBelieve")
 	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
 		String message = "";
 
@@ -257,7 +299,7 @@ public class detailRestService {
 
 	/*--------------*web Service pour la generation des rapport finale*--------------*/
 
-	@GetMapping(value = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}", produces = MediaType.APPLICATION_PDF_VALUE)
+	@GetMapping(value = "/rapportOrangeBelieve/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}", produces = MediaType.APPLICATION_PDF_VALUE)
 	public ResponseEntity<InputStreamResource> rapportArtisteOrange(@PathVariable Integer id,
 			@PathVariable java.sql.Date datedebut, @PathVariable java.sql.Date datefin, @PathVariable Double retenue)
 			throws pdfExceptionNoDataFound, pdfExceptionDateFormat, IOException, DocumentException {
@@ -286,43 +328,43 @@ public class detailRestService {
 
 	/*--------------------- web service Revenu------------------*/
 
-	@RequestMapping(path = "/HistRevenu", method = RequestMethod.GET)
+	@RequestMapping(path = "/HistRevenuBelieve", method = RequestMethod.GET)
 	public List<Object[]> statRevenu() {
-		return DetailRepository.statRevenu();
+		return BelieveRepository.statRevenu();
 	}
 
 	/*--------------------- web service Revenu ById------------------*/
-	@RequestMapping(path = "/HistRevenu/by-id/{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "/HistRevenuBelieve/by-id/{id}", method = RequestMethod.GET)
 	public List<Object[]> HistRevenu(@PathVariable("id") Integer id) {
-		return DetailRepository.HistRevenu(id);
+		return BelieveRepository.HistRevenu(id);
 	}
 
 	/*--------------*Set and get service paiementParMois*--------------
 	 *
 	@RequestMapping(path = "/paiementParMois", method = RequestMethod.POST, consumes = "application/json")
 	public void paiementParMois(@Valid @RequestBody details detailsPaiement) {
-		DetailRepository.paiementParMois(detailsPaiement.getNamea(), detailsPaiement.getDate1(),
+		BelieveRepository.paiementParMois(detailsPaiement.getNamea(), detailsPaiement.getDate1(),
 				detailsPaiement.getDate2());
 	}
 	*/
-	@RequestMapping(path = "/paiementParMoisHist/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/paiementParMoisHistBelieve/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
 	public void paiementParMoisHist(@PathVariable String namea, @PathVariable java.sql.Date date1,
 			@PathVariable java.sql.Date date2) {
 		System.out.println(namea + ' ' + date1 + ' ' + date2);
-		DetailRepository.paiementParMoisHist(namea, date1, date2);
+		BelieveRepository.paiementParMoisHist(namea, date1, date2);
 	}
 
-	@RequestMapping(path = "/paiementParMois/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/paiementParMoisBelieve/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
 	public void paiementParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,
 			@PathVariable java.sql.Date date2) {
 		System.out.println(namea + ' ' + date1 + ' ' + date2);
-		DetailRepository.paiementParMois(namea, date1, date2);
+		BelieveRepository.paiementParMois(namea, date1, date2);
 	}
 
-	@RequestMapping(path = "/compenseParMois/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
+	@RequestMapping(path = "/compenseParMoisBelieve/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
 	public void compenseParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,
 			@PathVariable java.sql.Date date2) {
 		System.out.println(namea + ' ' + date1 + ' ' + date2);
-		DetailRepository.compenseParMois(namea, date1, date2);
+		BelieveRepository.compenseParMois(namea, date1, date2);
 	}
 }

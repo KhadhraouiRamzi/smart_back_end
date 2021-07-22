@@ -31,7 +31,6 @@ public class pdfService {
     detailRepository DetailRepository;
 
 
-
     public ByteArrayInputStream toPDF(Integer idUSer, java.sql.Date datedebut, java.sql.Date datefin, Double retenue) throws pdfExceptionNoDataFound,IOException,DocumentException,pdfExceptionDateFormat,MalformedURLException {
 
         /*String URL_file = null;*/
@@ -250,6 +249,8 @@ public class pdfService {
 
 
             } else
+                //return new ByteArrayInputStream(null);
+
                 throw new pdfExceptionNoDataFound(u.get().getNom() + " " + u.get().getPrenom() + "n'a aucun revenue dans cette date !! verfier la date que vous avez choisir !");
         }
 

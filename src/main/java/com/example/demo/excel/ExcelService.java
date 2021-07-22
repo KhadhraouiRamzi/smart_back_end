@@ -181,6 +181,8 @@ public class ExcelService {
                                 System.out.println( (HTVA / 2));
 
                                 details.setGrossrevenu((double) 0);
+                                
+                                details.setFile("Orange");
                                 break;
                             default:
                                 break;
