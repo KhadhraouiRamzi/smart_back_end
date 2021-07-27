@@ -5,10 +5,7 @@ import com.example.demo.dao.userRepository;
 import com.example.demo.entite.details;
 import com.example.demo.entite.devise;
 import com.example.demo.entite.user;
-import com.example.demo.excel.DateException;
-import com.example.demo.excel.ExcelService;
-import com.example.demo.excel.ResponseMessage;
-import com.example.demo.excel.nullException;
+import com.example.demo.excel.*;
 import com.example.demo.pdf.pdfExceptionDateFormat;
 import com.example.demo.pdf.pdfExceptionNoDataFound;
 import com.example.demo.pdf.pdfService;
@@ -42,7 +39,10 @@ public class detailRestService {
 	userRepository UserRepository;
 
 	@Autowired
-	ExcelService excelService;
+	ExcelServiceOrange excelServiceOrange;
+
+	@Autowired
+	ExcelServiceBelieve excelServiceBelieve;
 
 	@Autowired
 	pdfService PdfService;
@@ -237,13 +237,13 @@ public class detailRestService {
 
 	/*--------------*web Service pour l'upload des details Orange*--------------*/
 
-	@PostMapping("/uploadExcel")
-	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+	@PostMapping("/uploadExcelOrange")
+	public ResponseEntity<ResponseMessage> uploadFileOrange(@RequestParam("file") MultipartFile file) {
 		String message = "";
 
-		if (ExcelService.hasExcelFormat(file)) {
+		if (ExcelServiceOrange.hasExcelFormat(file)) {
 			try {
-				excelService.uploadExcel(file);
+				excelServiceOrange.uploadExcelOrange(file);
 
 				message = "l'importation et terminé avec succes: " + file.getOriginalFilename();
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
@@ -262,9 +262,9 @@ public class detailRestService {
 	public ResponseEntity<ResponseMessage> uploadFileBelieve(@RequestParam("file") MultipartFile file) {
 		String message = "";
 
-		if (ExcelService.hasExcelFormat(file)) {
+		if (ExcelServiceBelieve.hasExcelFormat(file)) {
 			try {
-				excelService.uploadExcel(file);
+				excelServiceBelieve.uploadExcelBelieve(file);
 
 				message = "l'importation et terminé avec succes: " + file.getOriginalFilename();
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class ExcelService {
+public class ExcelServiceOrange {
 
     private static final Map<String, String> fileExtensionMap;
 
@@ -45,9 +45,9 @@ public class ExcelService {
     private static double HTVA;
     private static double part_artiste;
 
-    public void uploadExcel(MultipartFile file) throws ParseException, InvalidFormatException, DateException, nullException {
+    public void uploadExcelOrange(MultipartFile file) throws ParseException, InvalidFormatException, DateException, nullException {
         try {
-            List<details> details = excelToDetails(file.getInputStream());
+            List<details> details = excelOrangeToDetails(file.getInputStream());
             detailRepository.saveAll(details);
         } catch (IOException e) {
             throw new RuntimeException("fail to store excel data: " + e.getMessage());
@@ -65,7 +65,7 @@ public class ExcelService {
 
 
 
-    public List<details> excelToDetails(InputStream is) throws IOException, InvalidFormatException, ParseException, DateException, nullException {
+    public List<details> excelOrangeToDetails(InputStream is) throws IOException, InvalidFormatException, ParseException, DateException, nullException {
 
             Workbook workbook = WorkbookFactory.create(is);
 

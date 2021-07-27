@@ -25,6 +25,8 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 
 	List<details> getAllByDate1AndDate2(Date date1,Date date2);
 
+	List<details> getAllByDate1(Date date1);
+
 	/*----------------------------stat avec top 10---------------------------*/
 
 	@Query(nativeQuery = true, value = "\r\n"
