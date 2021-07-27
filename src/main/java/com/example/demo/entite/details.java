@@ -335,6 +335,22 @@ public class details {
 		this.file = file;
 	}
 
+	public String getPays() {
+		return pays;
+	}
+
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+
+	public String getAbonnement() {
+		return abonnement;
+	}
+
+	public void setAbonnement(String abonnement) {
+		this.abonnement = abonnement;
+	}
+
 	public details() {
 		super();
 	}
