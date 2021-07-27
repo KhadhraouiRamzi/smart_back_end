@@ -1,5 +1,6 @@
 package com.example.demo.pdf;
 
+import com.example.demo.dao.believeRepository;
 import com.example.demo.dao.detailRepository;
 import com.example.demo.dao.userRepository;
 import com.example.demo.entite.user;
@@ -29,6 +30,10 @@ public class pdfService {
 
     @Autowired
     detailRepository DetailRepository;
+    
+    @Autowired
+    believeRepository BelieveRepository;
+    private static double sommeRevenu;
 
 
     public ByteArrayInputStream toPDF(Integer idUSer, java.sql.Date datedebut, java.sql.Date datefin, Double retenue) throws pdfExceptionNoDataFound,IOException,DocumentException,pdfExceptionDateFormat,MalformedURLException {
@@ -42,6 +47,9 @@ public class pdfService {
         Optional<user> u = UserRepository.findById(idUSer);
 
         List<Double> details = DetailRepository.rapportStatTotalUsersById(idUSer, datedebut, datefin);
+        System.out.println(details);
+        List<Double> detailsBelieve = BelieveRepository.rapportStatTotalBelieveUsersById(idUSer, datedebut, datefin);
+        System.out.println(detailsBelieve);
 
         Date d = new Date();
         SimpleDateFormat formater = null;
@@ -113,14 +121,14 @@ public class pdfService {
 
             PdfPTable table4 = new PdfPTable(2); // Create 2 columns in table.
 
-            DecimalFormat decimal = new DecimalFormat("#.000");
+            DecimalFormat decimal = new DecimalFormat("0.000");
             DecimalFormat decimal2 = new DecimalFormat("###.#");
 
 
             // Create cells
             PdfPCell cell1 = new PdfPCell(new Paragraph("Orange " + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
-            PdfPCell cell2 = new PdfPCell(new Paragraph("Believe" + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
-            PdfPCell cell9 = new PdfPCell(new Paragraph("Deezer" + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
+            PdfPCell cell2 = new PdfPCell(new Paragraph("Believe " + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
+            PdfPCell cell9 = new PdfPCell(new Paragraph("Deezer " + formaterrr.format(datedebut) + "-" + formaterrr.format(datefin), catFont15B));
             PdfPCell cell10 = new PdfPCell(new Paragraph("S-Total", catFont15B));
             PdfPCell cell11 = new PdfPCell(new Paragraph("Retenue à source " + decimal2.format(retenue) + "%", catFont15B));
 /*                        PdfPCell cell12 = new PdfPCell(new Paragraph("Retenue à source 15%", catFont15B));
@@ -131,11 +139,12 @@ public class pdfService {
 
 
                 PdfPCell cell15 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
-/*                            PdfPCell cell16 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.05), catFont15B));
-                            PdfPCell cell17 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.15), catFont15B));*/
-                PdfPCell cell18 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
-                PdfPCell cell19 = new PdfPCell(new Paragraph("" + decimal.format((details.get(0) * retenue) / 100), catFont15B));
-                PdfPCell cell20 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * (retenue / 100)), catFont15B));
+                PdfPCell cell16 = new PdfPCell(new Paragraph("" + detailsBelieve.get(0), catFont15B));
+ /*                            PdfPCell cell17 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.15), catFont15B));*/
+                PdfPCell cell18 = new PdfPCell(new Paragraph("" + (details.get(0) + detailsBelieve.get(0)), catFont15B));
+                sommeRevenu =details.get(0) + detailsBelieve.get(0);
+                PdfPCell cell19 = new PdfPCell(new Paragraph("" + decimal.format(( sommeRevenu * retenue) / 100), catFont15B));
+                PdfPCell cell20 = new PdfPCell(new Paragraph("" + decimal.format(sommeRevenu - sommeRevenu * (retenue / 100)), catFont15B));
 /*                            PdfPCell cell21 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.05), catFont15B));
                             PdfPCell cell22 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) - details.get(0) * 0.15), catFont15B));*/
 
@@ -145,8 +154,8 @@ public class pdfService {
                 cell9.setBackgroundColor(new BaseColor(190, 209, 220));
                 cell10.setBackgroundColor(new BaseColor(190, 209, 220));
                 cell11.setBackgroundColor(new BaseColor(190, 209, 220));
-/*                            cell12.setBackgroundColor(new BaseColor(190, 209, 220));
-                            cell13.setBackgroundColor(new BaseColor(190, 209, 220));*/
+                /*                cell12.setBackgroundColor(new BaseColor(190, 209, 220));
+                                                      cell13.setBackgroundColor(new BaseColor(190, 209, 220));*/
                 cell14.setBackgroundColor(new BaseColor(190, 209, 220));
 
                 cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -158,6 +167,7 @@ public class pdfService {
                             cell13.setHorizontalAlignment(Element.ALIGN_CENTER);*/
                 cell14.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell15.setHorizontalAlignment(Element.ALIGN_CENTER);
+                cell16.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell18.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell19.setHorizontalAlignment(Element.ALIGN_CENTER);
                 cell20.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -165,6 +175,9 @@ public class pdfService {
                 // Add cells in table
                 table4.addCell(cell1);
                 table4.addCell(cell15);
+               
+                table4.addCell(cell2);
+                table4.addCell(cell16);
 
                 table4.addCell(cell10);
                 table4.addCell(cell18);
@@ -240,6 +253,17 @@ public class pdfService {
                 my_pdf_report.add(table5);
                 my_pdf_report.add(espace);
                 my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+
+                my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+                my_pdf_report.add(espace);
+
                 my_pdf_report.add(table7);
 
                 my_pdf_report.close();

@@ -280,21 +280,20 @@ public interface believeRepository extends JpaRepository<details, Integer> {
 
 	/*--------------*pour la generation des rapport finale*--------------*/
 
-	@Query(nativeQuery = true, value = "select round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,  \n"
-			+ "   round(sum(part_artiste),3) as part_artiste\n" + "from details dd\n"
+	@Query(nativeQuery = true, value = "select round(((case when (sum(part_artiste)) is null then 0 else  round((sum(part_artiste)),3) end) *\n"
+			+ " (select cours from devise where datecours between  :datedebut and :datefin and code ='EUR')),3) as part_artiste\n"
+			+ "from details dd\n"
 			+ "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
-			+ "and dd.date1 between :datedebut and :datefin and dd.date2 between :datedebut and :datefin and paye =0")
-	List<Double> rapportStatTotalUsersById(@Param("id") Integer id, @Param("datedebut") Date datedebut,
+			+ "and file ='Believe' and dd.date1 between :datedebut and :datefin and dd.date2 between :datedebut and :datefin and paye =0")
+	List<Double> rapportStatTotalBelieveUsersById(@Param("id") Integer id, @Param("datedebut") Date datedebut,
 			@Param("datefin") Date datefin);
 
 	@Query(nativeQuery = true, value = "select  namea, date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, \n"
-
 			+ "   round(sum(part_artiste),3) as part_artiste ,paye\n" + "	from details \n"
 			+ " group by   date1,date2,namea,paye  order by namea")
 	List<Object[]> statRevenu();
 
 	@Query(nativeQuery = true, value = "select  namea, date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, \n"
-
 			+ "   round(sum(part_artiste),3) as part_artiste ,paye\n"
 			+ "	from details where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ " group by   date1,date2,namea,paye")
