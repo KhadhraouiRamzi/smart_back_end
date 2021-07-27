@@ -306,30 +306,40 @@ public class detailRestService {
 	public List<Object[]> statRevenu() {
 		return DetailRepository.statRevenu();
 	}
+
 	/*--------------------- web service Revenu ById------------------*/
 	@RequestMapping(path = "/HistRevenu/by-id/{id}", method = RequestMethod.GET)
 	public List<Object[]> HistRevenu(@PathVariable("id") Integer id) {
 		return DetailRepository.HistRevenu(id);
 	}
-	/*--------------*Set and get service paiementParMois*--------------*/
 
-	@RequestMapping(path = "/paiementParMoisHist/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
-	public void paiementParMoisHist(@PathVariable String namea, @PathVariable java.sql.Date date1,@PathVariable java.sql.Date date2) {
-		System.out.println(namea+' '+date1+' '+date2);
-		DetailRepository.paiementParMoisHist(namea,date1,date2);
+	/*--------------*Set and get service paiementParMois*--------------
+	 *
+	@RequestMapping(path = "/paiementParMois", method = RequestMethod.POST, consumes = "application/json")
+	public void paiementParMois(@Valid @RequestBody details detailsPaiement) {
+		DetailRepository.paiementParMois(detailsPaiement.getNamea(), detailsPaiement.getDate1(),
+				detailsPaiement.getDate2());
 	}
-
+	*/
+	@RequestMapping(path = "/paiementParMoisHist/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
+	public void paiementParMoisHist(@PathVariable String namea, @PathVariable java.sql.Date date1,
+			@PathVariable java.sql.Date date2) {
+		System.out.println(namea + ' ' + date1 + ' ' + date2);
+		DetailRepository.paiementParMoisHist(namea, date1, date2);
+	}
 
 	@RequestMapping(path = "/paiementParMois/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
-	public void paiementParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,@PathVariable java.sql.Date date2) {
-		System.out.println(namea+' '+date1+' '+date2);
-		DetailRepository.paiementParMois(namea,date1,date2);
+	public void paiementParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,
+			@PathVariable java.sql.Date date2) {
+		System.out.println(namea + ' ' + date1 + ' ' + date2);
+		DetailRepository.paiementParMois(namea, date1, date2);
 	}
-	
+
 	@RequestMapping(path = "/compenseParMois/{namea}/{date1}/{date2}", method = RequestMethod.PUT)
-	public void compenseParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,@PathVariable java.sql.Date date2) {
-		System.out.println(namea+' '+date1+' '+date2);
-		DetailRepository.compenseParMois(namea,date1,date2);
+	public void compenseParMois(@PathVariable String namea, @PathVariable java.sql.Date date1,
+			@PathVariable java.sql.Date date2) {
+		System.out.println(namea + ' ' + date1 + ' ' + date2);
+		DetailRepository.compenseParMois(namea, date1, date2);
 	}
 }
 

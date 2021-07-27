@@ -89,82 +89,82 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 	@Query(nativeQuery = true, value = " select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ "from details group by  content order by  round(sum(ttc),3) desc ")
+			+ "from details  where file ='Orange' group by  content order by  round(sum(ttc),3) desc ")
 	List<Object[]> statChanson();
 
 	@Query(nativeQuery = true, value = "select  namea,  round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,"
 			+ "round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ "round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ "from details group by  namea ORDER BY  round(sum(ttc),3) desc ")
+			+ "from details  where file ='Orange' group by  namea ORDER BY  round(sum(ttc),3) desc ")
 	List<Object[]> statArtiste();
 
 	@Query(nativeQuery = true, value = "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ " from details group by  category order by round((sum(ttc)),3) desc")
+			+ " from details  where file ='Orange' group by  category order by round((sum(ttc)),3) desc")
 	List<Object[]> statcategory();
 
 	@Query(nativeQuery = true, value = "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ " from details group by  content order by   sum(quantite)    desc")
+			+ " from details  where file ='Orange' group by  content order by   sum(quantite)    desc")
 	List<Object[]> statCountC();
 
 	@Query(nativeQuery = true, value = "select  namea,  round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,"
 			+ "round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ "round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ "from details group by    namea \n" + "ORDER BY sum(quantite) DESC")
+			+ "from details  where file ='Orange' group by    namea \n" + "ORDER BY sum(quantite) DESC")
 	List<Object[]> statCountA();
 
 	@Query(nativeQuery = true, value = "select  date1,date2,round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ "from details group by date1,date2")
+			+ "from details  where file ='Orange' group by date1,date2")
 	List<Object[]> statDate();
 
 	@Query(nativeQuery = true, value = "\r\n"
 			+ " select  plateforme, round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ "from details group by  plateforme order by TTC   desc")
+			+ "from details  where file ='Orange' group by  plateforme order by TTC   desc")
 	List<Object[]> statPlateforme();
 
 	@Query(nativeQuery = true, value = "\r\n"
 			+ " select  plateforme, round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ "from details group by  plateforme")
+			+ "from details  where file ='Orange' group by  plateforme")
 	List<Object[]> statPlateformeC();
 
 	/*-----------tout les stat Users Connected-------------*/
 
 	@Query(nativeQuery = true, value =   "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details  where   file ='Orange' and namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by  content")
 	List<Object[]> statChansonById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value =  "select  namea,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details where file ='Orange' and namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by  namea ")
 	List<Object[]> statArtisteById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value = "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details  where file ='Orange' and namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by  category")
 	List<Object[]> statCategoryById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value = "select  plateforme,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details where file ='Orange' and namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by plateforme")
 	List<Object[]> statPlateformeById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value = "select   date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details  where file ='Orange' and namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by   date1,date2")
 	List<Object[]> statDateById(@Param("id") Integer id);
 
@@ -172,44 +172,44 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 
 	@Query(nativeQuery = true, value ="select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details  where   namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by  content order by round((sum(ttc)),3) desc limit 10")
 	List<Object[]> statChansonUsersById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value =  "select  namea,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details\n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details where     namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by  namea order by round((sum(ttc)),3) desc limit 10")
 	List<Object[]> statArtisteUsersById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value = "select  category,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ " from details\n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ " from details where  namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by  category order by round((sum(ttc)),3) desc limit 10")
 	List<Object[]> statcategoryUsersById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value = "select  content,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details  where   namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ " group by  content order by   sum(quantite)    desc limit 10")
 	List<Object[]> statCountCUsersById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value = "select  namea,  round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,"
 			+ "round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ "round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n" + "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n" + "group by namea \n"
+			+ "	where  namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n" + "group by namea \n"
 			+ "ORDER BY sum(quantite) DESC limit 10")
 	List<Object[]> statCountAUsersById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value =  "select   date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "from details  where  namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
 			+ "group by   date1,date2 order by round((sum(ttc)),3) desc limit 10")
 	List<Object[]> statDateUsersById(@Param("id") Integer id);
 
 	@Query(nativeQuery = true, value =  "select  plateforme,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste \n"
-			+ "from details \n" + "where namea  LIKE CONCAT((select n_artistique "
+			+ "from details  where  namea  LIKE CONCAT((select n_artistique "
 			+ "FROM user u where u.id=:id),'%')\n" + "group by  plateforme order by round((sum(ttc)),3) desc limit 10")
 	List<Object[]> statPlateformeUsersById(@Param("id") Integer id);
 
@@ -217,7 +217,7 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ " select  plateforme, round((sum(`ttc`)),3) as ttc,   sum(quantite) as quantite,round(sum(`part_smart`),3) as part_smart,\n"
 			+ " round(sum(tax_telecom),3) as tax_telecom, round(sum(part_TTC),3) as part_TTC,\n"
 			+ " round(sum(`htva`),3) as htva, round(sum(part_artiste),3) as part_artiste\n" + "from details\n"
-			+ "	where namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
+			+ "	where   namea=(select concat(prenom ,' ',nom) FROM user u where u.id=:id)\n"
 			+ " group by  plateforme order by round((sum(`ttc`)),3) desc limit 10")
 	List<Object[]> statPlateformeCUsersById(@Param("id") Integer id);
 
@@ -236,10 +236,9 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 
 	/*--------------*pour la generation des rapport finale*--------------*/
 
-	@Query(nativeQuery = true, value =  "select round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, round(sum(tax_telecom),3) as tax_telecom,\n"
-			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste\n"
-			+ "from details dd\n" + "where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
-			+ "and dd.date1 between :datedebut and :datefin and dd.date2 between :datedebut and :datefin and paye =0")
+	@Query(nativeQuery = true, value =  "select (case when round((sum(part_artiste)),3) is null then 0 else  round((sum(part_artiste)),3) end)  as part_artiste\n"
+			+ "from details dd where namea  LIKE CONCAT((select n_artistique FROM user u where u.id=:id),'%')\n"
+			+ "and file ='Orange' and dd.date1 between :datedebut and :datefin and dd.date2 between :datedebut and :datefin and paye =0")
 	List<Double> rapportStatTotalUsersById(@Param("id") Integer id, @Param("datedebut") Date datedebut,
 			@Param("datefin") Date datefin);
 
@@ -247,7 +246,7 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 			+ "round(sum(tax_telecom),3) as tax_telecom, \n"
 			+ "round(sum(part_TTC),3) as part_TTC, round(sum(htva),3) as htva, round(sum(part_artiste),3) as part_artiste ,paye\n"
 			+ "	from details \n" + " group by   date1,date2,namea,paye  order by namea")
-	List<Object[]> statRevenu();
+	List<Object[]> statRevenu(); 
 
 	@Query(nativeQuery = true, value = "select  namea, date1,date2,   round((sum(ttc)),3) as ttc,   sum(quantite) as quantite,round(sum(part_smart),3) as part_smart, \n"
 			+ "round(sum(tax_telecom),3) as tax_telecom, \n"

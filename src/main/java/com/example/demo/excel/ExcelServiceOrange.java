@@ -204,8 +204,10 @@ public class ExcelServiceOrange {
                                     details.setPart_artiste((double) (HTVA / 2));
                                     System.out.println( (HTVA / 2));
 
-                                    details.setGrossrevenu((double) 0);
-                                    break;
+                                details.setGrossrevenu((double) 0);
+
+                                details.setFile("Orange");
+                                break;
                                 }
                                 else throw new nullException("le nombre d'ecoute est doit etre non vide verifiez " +
                                         "la ligne " + (currentRow.getRowNum()+1));
