@@ -6,8 +6,9 @@ import com.example.demo.entite.details;
 import com.example.demo.entite.devise;
 import com.example.demo.entite.user;
 import com.example.demo.excel.DateException;
-import com.example.demo.excel.ExcelService;
+import com.example.demo.excel.ExcelServiceBelieve;
 import com.example.demo.excel.ResponseMessage;
+import com.example.demo.excel.nullException;
 import com.example.demo.pdf.pdfExceptionDateFormat;
 import com.example.demo.pdf.pdfExceptionNoDataFound;
 import com.example.demo.pdf.pdfService;
@@ -41,7 +42,7 @@ public class believeRestService {
 	userRepository UserRepository;
 
 	@Autowired
-	ExcelService excelService;
+	ExcelServiceBelieve excelServiceBelieve;
 
 	@Autowired
 	pdfService PdfService;
@@ -130,7 +131,7 @@ public class believeRestService {
 	public List<Object[]> topPaysBelieve() {
 		return BelieveRepository.topPaysBelieve();
 	}
-	
+
 	@RequestMapping(path = "/topAbonnementBelieve", method = RequestMethod.GET)
 	public List<Object[]> topAbonnementBelieve() {
 		return BelieveRepository.topAbonnementBelieve();
@@ -279,16 +280,16 @@ public class believeRestService {
 	/*--------------*web Service pour l'upload des details*--------------*/
 
 	@PostMapping("/uploadExcelBelieve")
-	public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<ResponseMessage> uploadFileBelieve(@RequestParam("file") MultipartFile file) {
 		String message = "";
 
-		if (ExcelService.hasExcelFormat(file)) {
+		if (ExcelServiceBelieve.hasExcelFormat(file)) {
 			try {
-				excelService.uploadExcel(file);
+				excelServiceBelieve.uploadExcelBelieve(file);
 
 				message = "l'importation et terminé avec succes: " + file.getOriginalFilename();
 				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-			} catch (DateException | ParseException | InvalidFormatException e) {
+			} catch (DateException | ParseException | InvalidFormatException | nullException e) {
 				message = "echec d'importation: " + e.getMessage();
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
 			}

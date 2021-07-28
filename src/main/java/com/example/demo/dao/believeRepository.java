@@ -23,7 +23,7 @@ public interface believeRepository extends JpaRepository<details, Integer> {
 	//
 	List<details> listArtiste();
 
-	List<details> getAllByDate1AndDate2(Date date1, Date date2);
+	List<details> getAllByDate1(Date date1);
 
 	/*----------------------------stat avec top 10---------------------------*/
 

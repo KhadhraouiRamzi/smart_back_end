@@ -34,6 +34,8 @@ public class ExcelServiceBelieve {
     }
 
     @Autowired
+    com.example.demo.dao.believeRepository believeRepository;
+    @Autowired
     com.example.demo.dao.detailRepository detailRepository;
 
     private static int quantite;
@@ -177,7 +179,7 @@ public class ExcelServiceBelieve {
                     "la ligne " + (currentRow.getRowNum()+1));
 
             if(!currentRow.getCell(19).getDateCellValue().toString().isEmpty()){
-                if(detailRepository.getAllByDate1(new Date(currentRow.getCell(19).getDateCellValue().getTime())).isEmpty()){
+                if(believeRepository.getAllByDate1(new Date(currentRow.getCell(19).getDateCellValue().getTime())).isEmpty()){
                     details.setDate1(new Date(currentRow.getCell(19).getDateCellValue().getTime()));
                 }
                 else throw new DateException("Revenue de mois "+formaterrr.format(new Date(currentRow.getCell(19).getDateCellValue().getTime()))+" existe deja !! verifiez vos date !");

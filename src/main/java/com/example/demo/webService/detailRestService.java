@@ -256,27 +256,6 @@ public class detailRestService {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
 	}
 
-	/*--------------*web Service pour l'upload des details Beleive*--------------*/
-
-	@PostMapping("/uploadExcelBelieve")
-	public ResponseEntity<ResponseMessage> uploadFileBelieve(@RequestParam("file") MultipartFile file) {
-		String message = "";
-
-		if (ExcelServiceBelieve.hasExcelFormat(file)) {
-			try {
-				excelServiceBelieve.uploadExcelBelieve(file);
-
-				message = "l'importation et terminé avec succes: " + file.getOriginalFilename();
-				return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-			} catch (DateException | ParseException | InvalidFormatException | nullException e) {
-				message = "echec d'importation: " + e.getMessage();
-				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-			}
-		}
-		message = "echec d'importation: le fichier n'est pas de type excel !";
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
-	}
-
 	/*--------------*web Service pour la generation des rapport finale*--------------*/
 
 	@GetMapping(value = "/rapportOrange/by-userId-datedebut-datefin/{id}/{datedebut}/{datefin}/{retenue}",produces = MediaType.APPLICATION_PDF_VALUE)
