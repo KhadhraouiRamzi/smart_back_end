@@ -90,7 +90,7 @@ public class ExcelServiceOrange {
             java.sql.Date d2=  new java.sql.Date(date2.getTime());
             System.out.println(date2);
 
-            List<details> detailss=detailRepository.getAllByDate1AndDate2(d1,d2);
+            List<details> detailss=detailRepository.getDetailsByDate1andDate2andFile(d1,d2,"Orange");
             SimpleDateFormat formaterrr = new SimpleDateFormat("MMM yyyy");
 
             if(detailss.isEmpty()){

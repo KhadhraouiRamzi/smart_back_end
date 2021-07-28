@@ -179,7 +179,7 @@ public class ExcelServiceBelieve {
                     "la ligne " + (currentRow.getRowNum()+1));
 
             if(!currentRow.getCell(19).getDateCellValue().toString().isEmpty()){
-                if(believeRepository.getAllByDate1(new Date(currentRow.getCell(19).getDateCellValue().getTime())).isEmpty()){
+                if(believeRepository.getDetailsByDate1andFile(new Date(currentRow.getCell(19).getDateCellValue().getTime()),"Believe").isEmpty()){
                     details.setDate1(new Date(currentRow.getCell(19).getDateCellValue().getTime()));
                 }
                 else throw new DateException("Revenue de mois "+formaterrr.format(new Date(currentRow.getCell(19).getDateCellValue().getTime()))+" existe deja !! verifiez vos date !");
@@ -211,7 +211,7 @@ public class ExcelServiceBelieve {
             else throw new nullException("la valeur de devise doit etre non vide verifiez " +
                     "la ligne " + (currentRow.getRowNum()+1));
 
-
+            details.setFile("Believe");
             tutorials.add(details);
 
         }

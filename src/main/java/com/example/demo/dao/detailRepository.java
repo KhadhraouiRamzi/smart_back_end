@@ -23,7 +23,8 @@ public interface detailRepository extends JpaRepository<details, Integer> {
 	//
 	List<details> listArtiste();
 
-	List<details> getAllByDate1AndDate2(Date date1,Date date2);
+	@Query(nativeQuery = true, value = "select *  from details where date1=:date1 and date2=:date2 and file=:file")
+	List<details> getDetailsByDate1andDate2andFile(@Param("date1") Date date1,@Param("date2") Date date2,@Param("file") String file);
 
 
 
