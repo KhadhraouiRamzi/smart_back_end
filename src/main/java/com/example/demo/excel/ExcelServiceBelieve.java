@@ -3,6 +3,7 @@ package com.example.demo.excel;
 import com.example.demo.entite.details;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,7 +92,20 @@ public class ExcelServiceBelieve {
 
             details details = new details();
 
-            currentRow.getCell(10).setCellType(CellType.STRING);
+            currentRow.getCell(0).setCellType(CellType.STRING);
+            currentRow.getCell(1).setCellType(CellType.STRING);
+            currentRow.getCell(2).setCellType(CellType.NUMERIC);
+            currentRow.getCell(3).setCellType(CellType.NUMERIC);
+            currentRow.getCell(5).setCellType(CellType.STRING);
+            currentRow.getCell(6).setCellType(CellType.STRING);
+            currentRow.getCell(11).setCellType(CellType.STRING);
+            currentRow.getCell(14).setCellType(CellType.STRING);
+            currentRow.getCell(20).setCellType(CellType.STRING);
+            currentRow.getCell(21).setCellType(CellType.STRING);
+            currentRow.getCell(23).setCellType(CellType.STRING);
+
+
+
 
             if(!currentRow.getCell(0).getStringCellValue().isEmpty()){
                 String nom_artiste;
@@ -133,6 +147,8 @@ public class ExcelServiceBelieve {
             details.setNetrevenu(currentRow.getCell(3).getNumericCellValue());
 
             if(!currentRow.getCell(5).getStringCellValue().isEmpty()){
+                currentRow.getCell(5).setCellType(XSSFCell.CELL_TYPE_STRING);
+                currentRow.getCell(10).setCellType(XSSFCell.CELL_TYPE_STRING);
                 if(currentRow.getCell(5).getStringCellValue().equals(currentRow.getCell(10).getStringCellValue())){
                     details.setAlbum("Single");
                 }
@@ -144,8 +160,8 @@ public class ExcelServiceBelieve {
                     "la ligne " + (currentRow.getRowNum()+1));
 
 
-            if(!String.valueOf(currentRow.getCell(6).getNumericCellValue()).isEmpty()){
-                details.setUpc(String.valueOf(currentRow.getCell(6).getNumericCellValue()));
+            if(!currentRow.getCell(6).getStringCellValue().isEmpty()){
+                details.setUpc(currentRow.getCell(6).getStringCellValue());
             }
             else throw new nullException("la valeur de Upc est doit etre non vide verifiez " +
                     "la ligne " + (currentRow.getRowNum()+1));
@@ -201,8 +217,13 @@ public class ExcelServiceBelieve {
             else throw new nullException("le type de vente doit etre non vide verifiez " +
                     "la ligne " + (currentRow.getRowNum()+1));
 
-
+            if(!(currentRow.getCell(22)==null)){
+            currentRow.getCell(22).setCellType(CellType.STRING);
             details.setType_stream(currentRow.getCell(22).getStringCellValue());
+            }
+
+            else throw new nullException("le type de stream doit etre non vide verifiez " +
+                    "la ligne " + (currentRow.getRowNum()+1));
 
             if(!currentRow.getCell(23).getStringCellValue().isEmpty()){
                 details.setDevise(currentRow.getCell(23).getStringCellValue());
