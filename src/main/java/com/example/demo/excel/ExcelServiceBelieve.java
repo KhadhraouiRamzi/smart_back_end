@@ -3,7 +3,6 @@ package com.example.demo.excel;
 import com.example.demo.entite.details;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +46,8 @@ public class ExcelServiceBelieve {
     private static double part_TTC;
     private static double HTVA;
     private static double part_artiste;
+    private static int nbr_ecoute;
+    private static double valeur_ttc;
 
     public void uploadExcelBelieve(MultipartFile file) throws ParseException, InvalidFormatException, DateException, nullException {
         try {
@@ -98,6 +99,7 @@ public class ExcelServiceBelieve {
             currentRow.getCell(3).setCellType(CellType.NUMERIC);
             currentRow.getCell(5).setCellType(CellType.STRING);
             currentRow.getCell(6).setCellType(CellType.STRING);
+            currentRow.getCell(10).setCellType(CellType.STRING);
             currentRow.getCell(11).setCellType(CellType.STRING);
             currentRow.getCell(14).setCellType(CellType.STRING);
             currentRow.getCell(20).setCellType(CellType.STRING);
@@ -142,13 +144,17 @@ public class ExcelServiceBelieve {
             else throw new nullException("le platforme est doit etre non vide verifiez " +
                     "la ligne " + (currentRow.getRowNum()+1));
 
-            details.setQuantite((int) currentRow.getCell(2).getNumericCellValue());
+            nbr_ecoute=((int) currentRow.getCell(2).getNumericCellValue());
+            details.setQuantite(Math.abs(nbr_ecoute));
 
-            details.setNetrevenu(currentRow.getCell(3).getNumericCellValue());
+            valeur_ttc=currentRow.getCell(3).getNumericCellValue();
+            details.setNetrevenu(Math.abs(valeur_ttc));
+            details.setTTC(Math.abs(valeur_ttc));
+            details.setPart_artiste(Math.abs(valeur_ttc/2));
+            details.setPart_smart(Math.abs(valeur_ttc/2));
+
 
             if(!currentRow.getCell(5).getStringCellValue().isEmpty()){
-                currentRow.getCell(5).setCellType(XSSFCell.CELL_TYPE_STRING);
-                currentRow.getCell(10).setCellType(XSSFCell.CELL_TYPE_STRING);
                 if(currentRow.getCell(5).getStringCellValue().equals(currentRow.getCell(10).getStringCellValue())){
                     details.setAlbum("Single");
                 }
@@ -195,7 +201,7 @@ public class ExcelServiceBelieve {
                     "la ligne " + (currentRow.getRowNum()+1));
 
             if(!currentRow.getCell(19).getDateCellValue().toString().isEmpty()){
-                if(believeRepository.getDetailsByDate1andFile(new Date(currentRow.getCell(19).getDateCellValue().getTime()),"Believe").isEmpty()){
+                if(believeRepository.getDetailsByDate1andFile(new Date(currentRow.getCell(19).getDateCellValue().getTime()),"Believe")==0){
                     details.setDate1(new Date(currentRow.getCell(19).getDateCellValue().getTime()));
                 }
                 else throw new DateException("Revenue de mois "+formaterrr.format(new Date(currentRow.getCell(19).getDateCellValue().getTime()))+" existe deja !! verifiez vos date !");
