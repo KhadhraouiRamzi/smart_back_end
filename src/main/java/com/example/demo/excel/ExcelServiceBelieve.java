@@ -1,6 +1,8 @@
 package com.example.demo.excel;
 
 import com.example.demo.entite.details;
+import com.example.demo.entite.devise;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,7 @@ public class ExcelServiceBelieve {
     private static double HTVA;
     private static double part_artiste;
     private static int nbr_ecoute;
+    private static double valeur_ttc_eur;
     private static double valeur_ttc;
 
     public void uploadExcelBelieve(MultipartFile file) throws ParseException, InvalidFormatException, DateException, nullException {
@@ -92,6 +95,7 @@ public class ExcelServiceBelieve {
 
 
             details details = new details();
+            devise devise = new devise();
 
             currentRow.getCell(0).setCellType(CellType.STRING);
             currentRow.getCell(1).setCellType(CellType.STRING);
@@ -146,12 +150,8 @@ public class ExcelServiceBelieve {
 
             nbr_ecoute=((int) currentRow.getCell(2).getNumericCellValue());
             details.setQuantite(Math.abs(nbr_ecoute));
-
-            valeur_ttc=currentRow.getCell(3).getNumericCellValue();
-            details.setNetrevenu(Math.abs(valeur_ttc));
-            details.setTTC(Math.abs(valeur_ttc));
-            details.setPart_artiste(Math.abs(valeur_ttc/2));
-            details.setPart_smart(Math.abs(valeur_ttc/2));
+            
+            valeur_ttc_eur=currentRow.getCell(3).getNumericCellValue();
 
 
             if(!currentRow.getCell(5).getStringCellValue().isEmpty()){
@@ -237,6 +237,18 @@ public class ExcelServiceBelieve {
 
             else throw new nullException("la valeur de devise doit etre non vide verifiez " +
                     "la ligne " + (currentRow.getRowNum()+1));
+
+            details.setNetrevenu(Math.abs(valeur_ttc_eur));
+            details.setTTC_EUR(Math.abs(valeur_ttc_eur));
+            details.setTTC(Math.abs(valeur_ttc_eur * devise.getCoursDate(details.getDate1(), details.getDate2())));
+            System.out.println(details.getDate1());
+            System.out.println(details.getDate2());
+            System.out.println(details.getTTC());
+            System.out.println(details.getTTC_EUR());
+
+            details.setPart_artiste(Math.abs(valeur_ttc/2));
+            details.setPart_smart(Math.abs(valeur_ttc/2));
+
 
             details.setFile("Believe");
             tutorials.add(details);

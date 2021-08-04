@@ -35,6 +35,8 @@ public class details {
 	private  String country  ;
 	private  Date udate  ;
 	private  Double TTC  ;
+	private  Double TTC_EUR  ;
+	private  Double TTC_USD  ;
 	private  Double part_smart  ;
 	private  Double tax_telecom  ;
 	private  Double part_TTC  ;
@@ -66,6 +68,23 @@ public class details {
 
 	public void setTTC(Double TTC) {
 		this.TTC = TTC;
+	}
+	
+
+	public Double getTTC_EUR() {
+		return TTC_EUR;
+	}
+
+	public void setTTC_EUR(Double tTC_EUR) {
+		TTC_EUR = tTC_EUR;
+	}
+
+	public Double getTTC_USD() {
+		return TTC_USD;
+	}
+
+	public void setTTC_USD(Double tTC_USD) {
+		TTC_USD = tTC_USD;
 	}
 
 	public Double getPart_smart() {

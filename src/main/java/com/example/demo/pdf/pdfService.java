@@ -145,7 +145,7 @@ public class pdfService {
                 PdfPCell cell15 = new PdfPCell(new Paragraph("" + details.get(0), catFont15B));
                 PdfPCell cell16 = new PdfPCell(new Paragraph("" + detailsBelieve.get(0), catFont15B));
  /*                            PdfPCell cell17 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) * 0.15), catFont15B));*/
-                PdfPCell cell18 = new PdfPCell(new Paragraph("" + (details.get(0) + detailsBelieve.get(0)), catFont15B));
+                PdfPCell cell18 = new PdfPCell(new Paragraph("" + decimal.format(details.get(0) + detailsBelieve.get(0)), catFont15B));
                 sommeRevenu =details.get(0) + detailsBelieve.get(0);
                 PdfPCell cell19 = new PdfPCell(new Paragraph("" + decimal.format(( sommeRevenu * retenue) / 100), catFont15B));
                 PdfPCell cell20 = new PdfPCell(new Paragraph("" + decimal.format(sommeRevenu - sommeRevenu * (retenue / 100)), catFont15B));

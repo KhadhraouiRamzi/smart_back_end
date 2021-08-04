@@ -1,11 +1,10 @@
  package com.example.demo.entite;
 
-import java.sql.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Date;
 
 
 @Entity
@@ -49,6 +48,14 @@ public class devise {
 	public float getCours() {
 		return cours;
 	}
+	
+	public float getCoursDate(Date date1 ,Date date2) {
+		if(getDatecours().after(date1) && getDatecours().before(date2) )
+		return this.getCours();
+		else
+			return 0;
+	}
+	
 	public void setCours(float cours) {
 		this.cours = cours;
 	}
@@ -67,4 +74,3 @@ public class devise {
 	
 	
 }
- 
