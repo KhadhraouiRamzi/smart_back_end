@@ -206,12 +206,12 @@ public class ExcelServiceOrange {
 
                                 details.setGrossrevenu((double) 0);
 
-                                details.setFile("Orange");
                                 break;
                                 }
                                 else throw new nullException("le nombre d'ecoute est doit etre non vide verifiez " +
                                         "la ligne " + (currentRow.getRowNum()+1));
-                            default:
+                            default: details.setCdate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+                                     details.setFile("Orange");
                                 break;
                         }
                         cellIdx++;

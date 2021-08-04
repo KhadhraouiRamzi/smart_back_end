@@ -205,6 +205,9 @@ public class ExcelServiceDeezer {
 
 
             details.setFile("Deezer");
+
+            details.setCdate(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+
             tutorials.add(details);
 
         }
