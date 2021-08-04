@@ -23,7 +23,7 @@ public interface believeRepository extends JpaRepository<details, Integer> {
 	//
 	List<details> listArtiste();
 
-	@Query(nativeQuery = true, value = "select distinct date1  from details where date1=:date1 and file=:file and id =26440")
+	@Query(nativeQuery = true, value = "select distinct date1  from details where date1=:date1 and file=:file and id = 59393")
 	List<details> getDetailsByDate1andFile(@Param("date1") Date date1,@Param("file") String file);
 
 	/*----------------------------stat avec top 10---------------------------*/
