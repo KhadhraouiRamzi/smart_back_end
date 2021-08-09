@@ -51,7 +51,7 @@ public class devise {
 	
 	public float getCoursDate(Date date1 ,Date date2) {
 		if(getDatecours().after(date1) && getDatecours().before(date2) )
-		return this.getCours();
+		return getCours();
 		else
 			return 0;
 	}

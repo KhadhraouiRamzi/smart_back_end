@@ -2,7 +2,6 @@ package com.example.demo.excel;
 
 import com.example.demo.entite.details;
 import com.example.demo.entite.devise;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +38,8 @@ public class ExcelServiceBelieve {
     com.example.demo.dao.believeRepository believeRepository;
     @Autowired
     com.example.demo.dao.detailRepository detailRepository;
+    @Autowired
+    com.example.demo.dao.deviseRepository deviseRepository;
 
     private static int quantite;
     private static float value;
@@ -195,12 +196,21 @@ public class ExcelServiceBelieve {
                     "la ligne " + (currentRow.getRowNum()+1));
 
             if(!currentRow.getCell(18).getDateCellValue().toString().isEmpty()){
-                details.setDate2(new Date(currentRow.getCell(18).getDateCellValue().getTime()));
+
+                details.setDate1(new Date(currentRow.getCell(18).getDateCellValue().getTime()));
+
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(currentRow.getCell(18).getDateCellValue());
+                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+                details.setDate2(new Date(cal.getTime().getTime()));
+
+
+
             }
             else throw new nullException("la date fin est doit etre non vide verifiez " +
                     "la ligne " + (currentRow.getRowNum()+1));
 
-            if(!currentRow.getCell(19).getDateCellValue().toString().isEmpty()){
+/*            if(!currentRow.getCell(19).getDateCellValue().toString().isEmpty()){
                 if(believeRepository.getDetailsByDate1andFile(new Date(currentRow.getCell(19).getDateCellValue().getTime()),"Believe")==0){
                     details.setDate1(new Date(currentRow.getCell(19).getDateCellValue().getTime()));
                 }
@@ -208,7 +218,7 @@ public class ExcelServiceBelieve {
             }
 
             else throw new nullException("la date debut est doit etre non vide verifiez " +
-                    "la ligne " + (currentRow.getRowNum()+1));
+                    "la ligne " + (currentRow.getRowNum()+1));*/
 
             if(!currentRow.getCell(20).getStringCellValue().isEmpty()){
                 details.setPays(currentRow.getCell(20).getStringCellValue());
@@ -240,12 +250,22 @@ public class ExcelServiceBelieve {
 
             details.setNetrevenu(Math.abs(valeur_ttc_eur));
             details.setTTC_EUR(Math.abs(valeur_ttc_eur));
-            details.setTTC(Math.abs(valeur_ttc_eur * devise.getCoursDate(details.getDate1(), details.getDate2())));
-            System.out.println(details.getDate1());
-            System.out.println(details.getDate2());
-            System.out.println(details.getTTC());
-            System.out.println(details.getTTC_EUR());
 
+            System.out.println("getCours ------>"+deviseRepository.getCourParDate(details.getDate1(), details.getDate2()));
+
+            if(deviseRepository.getCourParDate(details.getDate1(), details.getDate2())!=null){
+                details.setTTC(Math.abs(valeur_ttc_eur * deviseRepository.getCourParDate(details.getDate1(), details.getDate2())));//getCoursDate(details.getDate1(), details.getDate2())));
+            }
+            else throw new DateException("Devise du mois "+details.getDate1()+" et "+details.getDate2()+" pas existe sur table devise !! Merci de completer le tableau Cours Devise !");
+
+
+            System.out.println("cours ---------> "+ deviseRepository.getCourParDate(details.getDate1(), details.getDate2()));
+            System.out.println("date1 ---------> "+details.getDate1());
+            System.out.println("date2 ---------> "+details.getDate2());
+            System.out.println("ttc  ---------> "+details.getTTC());
+            System.out.println("ttc_eur ---------> "+details.getTTC_EUR());
+
+            valeur_ttc=details.getTTC();
             details.setPart_artiste(Math.abs(valeur_ttc/2));
             details.setPart_smart(Math.abs(valeur_ttc/2));
 
